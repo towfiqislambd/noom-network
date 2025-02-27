@@ -1,0 +1,18 @@
+import location from "../../assets/icons/location.png"
+
+const PropertyCard = ({ data }) => {
+    return (
+        <div className="p-4 rounded-lg overflow-hidden hover:scale-[1.05] transition-transform duration-500 bg-[#E6ECFD]">
+            <figure>
+                <img src={data.thumbnail} alt="property" className="object-cover w-full h-full" />
+            </figure>
+            <span className="font-semibold text-xl pb-1 inline-block pt-5">{data.title}</span>
+            <p className="flex gap-3 3xl:text-lg items-center text-[#4F4F4F]">
+                <img src={location} alt="location" className="object-cover" />
+                <span>{data.desc}</span>
+            </p>
+        </div>
+    );
+};
+
+export default PropertyCard;
