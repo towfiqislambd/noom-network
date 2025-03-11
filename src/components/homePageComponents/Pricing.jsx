@@ -8,7 +8,7 @@ const Pricing = () => {
             <div className="container">
                 <SectionTitle sectionDescClass='max-w-[614px]' sectionTitle='Get Started with Some Simple Steps' sectionDesc='Easily manage properties, track appreciation, and grow your portfolio with our smart tools' ></SectionTitle>
                 <div className="flex flex-col lg:flex-row gap-6 items-center justify-center">
-                    <div data-aos="flip-left" data-aos-duration="3000" className="w-full xl:w-[450px] space-y-3 border rounded-xl p-4 sm:p-6 bg-white border-primaryBgColor">
+                    <div className="w-full xl:w-[450px] space-y-3 border rounded-xl p-4 sm:p-6 bg-white border-primaryBgColor">
                         <span className="font-medium text-xl">Starter Plan</span>
                         <p className="flex items-center pb-3">
                             <span className="text-3xl font-semibold">$5.00</span>
@@ -34,7 +34,7 @@ const Pricing = () => {
                             </li>
                         </ul>
                     </div>
-                    <div data-aos="flip-left" data-aos-duration="3000" className="w-full xl:w-[450px] space-y-3 border rounded-xl p-4 sm:p-6 bg-primaryBgColor text-white border-primaryBgColor">
+                    <div className="w-full xl:w-[450px] space-y-3 border rounded-xl p-4 sm:p-6 bg-primaryBgColor text-white border-primaryBgColor">
                         <span className="font-medium text-xl">Standard Plan</span>
                         <p className="flex items-center pb-3">
                             <span className="text-3xl font-semibold">$50.00</span>
