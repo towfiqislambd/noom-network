@@ -1,10 +1,10 @@
-import { getItem, removeItem, setItem } from '@/utils/localStorage';
-import { useState } from 'react';
+import { getItem, removeItem, setItem } from "@/utils/localStorage";
+import { useState } from "react";
 
 export default function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
     const data = getItem(key);
-    return data || initialValue;
+    return data !== undefined ? data : initialValue;
   });
 
   function handleDispatch(action) {
@@ -21,7 +21,7 @@ export default function useLocalStorage(key, initialValue) {
   }
 
   function clearState() {
-    setValue(undefined);
+    setValue(null);  // Set value to null when clearing the state
     removeItem(key);
   }
 

@@ -68,7 +68,7 @@ export const useGetUserData = (token) => {
   return useQuery({
     queryKey: ['user', token],
     queryFn: GetUserDataFunc,
-    enabled: !!token,
+    enabled: !!token, // Only run the query if token is truthy
     refetchInterval: 1000 * 60 * 60, // refetch every hour
   });
 };

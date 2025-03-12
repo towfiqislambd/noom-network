@@ -8,14 +8,14 @@ export const AuthContextProvider = createContext(null);
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
-  const [token, setToken, clearToken] = useLocalStorage('token', []);
+  const [token, setToken, clearToken] = useLocalStorage('token', null);
   const {
     data: userData = [],
     isLoading: loadingUserData,
     isFetching: fetchingUserData,
   } = useGetUserData(token);
 
-  console.log(user);
+  // console.log(user);
 
   //get user info::
   useEffect(() => {

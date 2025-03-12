@@ -20,7 +20,7 @@ const Home = () => {
   const { data: testimonialData } = useTestimonialData();
 
   const { user } = useAuth();
-  console.log(user);
+ 
 
   return (
     <>
