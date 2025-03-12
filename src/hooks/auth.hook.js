@@ -3,12 +3,16 @@ import {
   GetUserDataFunc,
   LoginFunc,
   LogOutFunc,
+  OtpVerifyFunc,
   RegisterFunc,
+  ResetPasswordFunc,
+  VerifyEmailFunc,
 } from './auth.api';
 import toast from 'react-hot-toast';
 import useAuth from './useAuth';
 import { useNavigate } from 'react-router-dom';
 
+// register::
 export const useRegister = () => {
   const { setLoading } = useAuth();
   const navigate = useNavigate();
@@ -33,7 +37,7 @@ export const useRegister = () => {
   });
 };
 
-// login:
+// login::
 export const useLogin = () => {
   const navigate = useNavigate();
 
@@ -63,7 +67,7 @@ export const useLogin = () => {
   });
 };
 
-// get user data:
+// get user data::
 export const useGetUserData = (token) => {
   return useQuery({
     queryKey: ['user', token],
@@ -91,6 +95,83 @@ export const useLogOut = () => {
     },
     onError: () => {
       toast.error('Logout Failed');
+    },
+  });
+};
+
+// verify email::
+export const useVerifyEmail = () => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationKey: ['verify-email'],
+    mutationFn: (payload) => VerifyEmailFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data?.email) {
+        navigate('/auth/verifyOTP', { state: { email: data.email } });
+        setLoading(false);
+        toast.success('Otp sent to your email address');
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.data?.email?.[0]);
+      console.log(err);
+    },
+  });
+};
+
+// verify otp:
+export const useVerifyOtp = (reset) => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ['verify-otp'],
+    mutationFn: (payload) => OtpVerifyFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setLoading(false);
+        toast.success('Otp verified successfully');
+        navigate('/auth/changePassword');
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      reset();
+      toast.error(err?.response?.data?.message);
+      console.log(err);
+    },
+  });
+};
+
+// reset password:
+export const useResetPassword = () => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ['reset-password'],
+    mutationFn: (payload) => ResetPasswordFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setLoading(false);
+        toast.success('Password reset successfully');
+        navigate('/auth/login');
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.message);  
     },
   });
 };

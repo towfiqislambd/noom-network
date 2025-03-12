@@ -5,9 +5,13 @@ import google from '../../assets/icons/google.png';
 import { useLogin } from '@/hooks/auth.hook';
 import { ImSpinner9 } from 'react-icons/im';
 import useAuth from '@/hooks/useAuth';
+import { useState } from 'react';
+import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
 const Login = () => {
   const { loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+
   // mutation:
   const { mutateAsync: loginMutation } = useLogin();
   const {
@@ -55,13 +59,23 @@ const Login = () => {
               )}
             </div>
             {/* Password field */}
-            <div className="relative">
+            <div className="mb-5 md:mb-8 relative">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 {...register('password', { required: 'Password is required' })}
                 placeholder="Password"
-                className="bg-transparent outline-none border-b pb-3 mb-2 block w-full border-gray-400"
+                className="bg-transparent outline-none border-b pr-9 pb-3 mb-2 block w-full border-gray-400"
               />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute cursor-pointer right-2 top-1"
+              >
+                {showPassword ? (
+                  <IoEyeOutline className="text-xl" />
+                ) : (
+                  <IoEyeOffOutline className="text-xl" />
+                )}
+              </span>
               {errors.password && (
                 <span className="text-red-500">{errors.password.message}</span>
               )}
