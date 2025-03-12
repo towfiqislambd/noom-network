@@ -1,9 +1,9 @@
-const useAuth = () => {
-    return (
-        <div>
+import { AuthContextProvider } from '@/Provider/AuthProvider';
+import { useContext } from 'react';
 
-        </div>
-    );
+const useAuth = () => {
+  const all = useContext(AuthContextProvider);
+  return all;
 };
 
 export default useAuth;
