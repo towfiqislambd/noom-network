@@ -17,15 +17,15 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
-    try {
+    // console.log(data);
+    if (data) {
       await loginMutation(data);
-    } catch (err) {
-      console.error(err);
+      reset();
     }
   };
 

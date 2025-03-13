@@ -31,8 +31,7 @@ export const useRegister = () => {
     },
     onError: (err) => {
       setLoading(false);
-      toast.error('Registration Failed');
-      console.log(err);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
@@ -61,8 +60,7 @@ export const useLogin = () => {
     },
     onError: (err) => {
       setLoading(false);
-      toast.error('Login Failed');
-      console.log(err);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
@@ -139,7 +137,9 @@ export const useVerifyOtp = (reset) => {
       if (data) {
         setLoading(false);
         toast.success('Otp verified successfully');
-        navigate('/auth/changePassword');
+        navigate('/auth/changePassword', {
+          state: { email: data.email, key: data?.password_reset_token },
+        });
       }
     },
     onError: (err) => {
@@ -171,7 +171,7 @@ export const useResetPassword = () => {
     },
     onError: (err) => {
       setLoading(false);
-      toast.error(err?.response?.data?.message);  
+      toast.error(err?.response?.data?.message);
     },
   });
 };
