@@ -12,7 +12,6 @@ import {
   useOurFeathers,
   useTestimonialData,
 } from '@/hooks/cms.queries';
-import useAuth from '@/hooks/useAuth';
 
 const Home = () => {
   const { data: homepageData } = useHomepageData();

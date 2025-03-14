@@ -92,8 +92,8 @@ export const useLogOut = () => {
       navigate('/auth/login');
       toast.success('User Logged out Successfully');
     },
-    onError: () => {
-      toast.error('Logout Failed');
+    onError: (err) => {
+      toast.error(err?.response?.data?.message);
     },
   });
 };

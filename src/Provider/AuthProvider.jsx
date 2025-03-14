@@ -9,7 +9,6 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [token, setToken, clearToken] = useLocalStorage('token', null);
-
   const {
     data: userData = [],
     isLoading: loadingUserData,
@@ -21,21 +20,24 @@ const AuthProvider = ({ children }) => {
   //get user info::
   useEffect(() => {
     if (!token) {
+      setUser(null);
       setLoading(false);
-      return; // Stop execution if token doesn't exist
+      return;
     }
 
-    try {
-      if (userData?.data) {
-        setUser(userData?.data);
-      }
-    } catch (error) {
+    if (userData?.data) {
+      setUser(userData.data);
+    } else {
       setUser(null);
-      console.error('Error fetching user data:', error);
-    } finally {
+    }
+
+    if (fetchingUserData || loadingUserData) {
+      setLoading(true);
+    } else {
       setLoading(false);
     }
-  }, [token, userData?.data]);
+  }, [token, userData, fetchingUserData, loadingUserData]);
+
 
   // values to pass:
   const allValues = {
