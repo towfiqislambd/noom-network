@@ -51,3 +51,9 @@ export const ResetPasswordFunc = async (payload) => {
   );
   return data?.data;
 };
+
+// ssl login::
+export const GoogleLoginFunc = async (payload) => {
+  const { data } = await axiosPublic.post('/api/social-login', payload);
+  return data?.data;
+};

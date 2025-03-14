@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   GetUserDataFunc,
+  GoogleLoginFunc,
   LoginFunc,
   LogOutFunc,
   OtpVerifyFunc,
@@ -172,6 +173,20 @@ export const useResetPassword = () => {
     onError: (err) => {
       setLoading(false);
       toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// ssl login::
+export const useSocialLogin = () => {
+  return useMutation({
+    mutationKey: ['social-login'],
+    mutationFn: (payload) => GoogleLoginFunc(payload),
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err);
     },
   });
 };

@@ -35,6 +35,10 @@ const SignUp = () => {
     }
   };
 
+  // login with google:
+  const handleLoginWithGoogle = () => {
+    console.log('google login');
+  };
   return (
     <div className="flex my-5 xl:my-0 justify-center items-center min-h-screen max-h-screen">
       <div className="container max-w-[450px] xl:max-w-[987px] xl:grid items-center gap-14 grid-cols-2">
@@ -142,7 +146,8 @@ const SignUp = () => {
             <hr className="mb-5 md:mb-8" />
             {/* Google sign in btn */}
             <button
-              onClick={(e) => e.preventDefault()}
+              type="button"
+              onClick={handleLoginWithGoogle}
               className="w-full bg-white text-center flex border rounded-lg py-3 gap-3 font-medium justify-center items-center"
             >
               <img src={google} alt="google" />

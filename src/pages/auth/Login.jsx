@@ -2,11 +2,13 @@ import { useForm } from 'react-hook-form';
 import signUpBg from '../../assets/loginBg.png';
 import { Link } from 'react-router-dom';
 import google from '../../assets/icons/google.png';
-import { useLogin } from '@/hooks/auth.hook';
+import { useLogin, useSocialLogin } from '@/hooks/auth.hook';
 import { ImSpinner9 } from 'react-icons/im';
 import useAuth from '@/hooks/useAuth';
 import { useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const Login = () => {
   const { loading } = useAuth();
@@ -14,6 +16,7 @@ const Login = () => {
 
   // mutation:
   const { mutateAsync: loginMutation } = useLogin();
+  const { mutateAsync: socialLoginMutation } = useSocialLogin();
   const {
     register,
     handleSubmit,
@@ -28,6 +31,41 @@ const Login = () => {
       reset();
     }
   };
+
+  // login with google:
+  const handleLoginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log('Google login success:', tokenResponse);
+      const token = tokenResponse.access_token;
+      try {
+        const { data } = await axios(
+          `${import.meta.env.VITE_GOOGLE_URL}/oauth2/v2/userinfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(data);
+        const updatedData = {
+          token,
+          provider: 'google',
+          username: data?.name,
+          email: data?.email,
+          avatar: data?.picture,
+        };
+        console.log(updatedData);
+        await socialLoginMutation(updatedData);
+        // Now you can store this info in state or send it to your backend
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    },
+    onError: (error) => {
+      console.error('Google Login Failed:', error);
+    },
+  });
 
   return (
     <div className="flex justify-center items-center my-5 xl:my-0 min-h-screen max-h-screen">
@@ -121,7 +159,8 @@ const Login = () => {
             <hr className="mb-5 md:mb-8" />
             {/* Google sign in btn */}
             <button
-              onClick={(e) => e.preventDefault()}
+              type="button"
+              onClick={() => handleLoginWithGoogle()}
               className="w-full bg-white text-center flex border rounded-lg py-3 gap-3 font-medium justify-center items-center"
             >
               <img src={google} alt="google" />

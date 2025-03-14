@@ -8,17 +8,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from './Provider/AuthProvider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
-        <ToastContainer />
-      </AuthProvider>
+      <GoogleOAuthProvider
+        clientId={`${import.meta.env.VITE_GOOGLE_AUTH_ID}`}
+        redirectUri="https://dev.myhealthneeds.co.uk/auth/signup"
+      >
+        <AuthProvider>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster />
+          <ToastContainer />
+        </AuthProvider>
+      </GoogleOAuthProvider>
     </QueryClientProvider>
   </StrictMode>
 );
