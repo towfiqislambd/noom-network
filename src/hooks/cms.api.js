@@ -37,3 +37,23 @@ export const ContactUsFunc = async (payload) => {
   const { data } = await axiosSecure.post('/api/contact-us', payload);
   return data?.data;
 };
+
+// subscription:
+export const SubscriptionFunc = async () => {
+  const { data } = await axiosPublic('/api/subscriptions');
+  return data?.data;
+};
+
+// about us::
+export const AboutUsFunc = async () => {
+  const { data } = await axiosPublic('/api/about-us');
+  return data?.data;
+};
+
+// achievements::
+export const AchievementsFunc = async () => {
+  const { data } = await axiosPublic('/api/our-achievements');
+  return data?.data;
+};
+
+// our partners::

@@ -7,16 +7,10 @@ import SimpleSteps from '@/components/homePageComponents/SimpleSteps';
 import Struggling from '@/components/homePageComponents/Struggling';
 import Testimonial from '@/components/homePageComponents/Testimonial';
 import TrustedCompanies from '@/components/homePageComponents/TrustedCompanies';
-import {
-  useHomepageData,
-  useOurFeathers,
-  useTestimonialData,
-} from '@/hooks/cms.queries';
+import { useHomepageData } from '@/hooks/cms.queries';
 
 const Home = () => {
   const { data: homepageData } = useHomepageData();
-  const { data: ourFeathers } = useOurFeathers();
-  const { data: testimonialData } = useTestimonialData();
 
   return (
     <>
@@ -26,10 +20,10 @@ const Home = () => {
         data={homepageData?.investment_choices}
         data2={homepageData?.investment_plan}
       />
-      <Features data={ourFeathers} />
+      <Features />
       <HowItWorks data={homepageData?.how_it_works} />
       <SimpleSteps data={homepageData?.get_started_steps} />
-      <Testimonial data={testimonialData} />
+      <Testimonial />
       <Pricing />
       <Struggling />
     </>

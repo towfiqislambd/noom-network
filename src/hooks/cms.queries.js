@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  AboutUsFunc,
+  AchievementsFunc,
   FaqsFunc,
   FooterInfoFunc,
   HomepageDataFunction,
   OurFeathers,
   SocialLinksFunc,
+  SubscriptionFunc,
   TestimonialsData,
 } from './cms.api';
 
@@ -48,5 +51,29 @@ export const useSocialInfo = () => {
   return useQuery({
     queryKey: ['social-info'],
     queryFn: SocialLinksFunc,
+  });
+};
+
+// subscription:
+export const useSubscription = () => {
+  return useQuery({
+    queryKey: ['subscription'],
+    queryFn: SubscriptionFunc,
+  });
+};
+
+// about us:
+export const useAboutUs = () => {
+  return useQuery({
+    queryKey: ['about-us'],
+    queryFn: AboutUsFunc,
+  });
+};
+
+// achievements::
+export const useAchievements = () => {
+  return useQuery({
+    queryKey: ['achievements'],
+    queryFn: AchievementsFunc,
   });
 };
