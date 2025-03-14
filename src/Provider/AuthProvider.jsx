@@ -20,21 +20,23 @@ const AuthProvider = ({ children }) => {
   //get user info::
   useEffect(() => {
     if (!token) {
-      setLoading(false);
-      return; // Stop execution if token doesn't exist
+      setUser(null);
+      // setLoading(false);
+      return;
     }
 
-    try {
-      if (userData?.data) {
-        setUser(userData?.data);
-      }
-    } catch (error) {
+    if (userData?.data) {
+      setUser(userData.data);
+    } else {
       setUser(null);
-      console.error('Error fetching user data:', error);
-    } finally {
+    }
+
+    if (loadingUserData) {
+      setLoading(true);
+    } else {
       setLoading(false);
     }
-  }, [token, userData?.data]);
+  }, [token, userData, fetchingUserData, loadingUserData]);
 
   // values to pass:
   const allValues = {

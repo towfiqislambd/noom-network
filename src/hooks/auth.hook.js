@@ -1,14 +1,19 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   GetUserDataFunc,
+  GoogleLoginFunc,
   LoginFunc,
   LogOutFunc,
+  OtpVerifyFunc,
   RegisterFunc,
+  ResetPasswordFunc,
+  VerifyEmailFunc,
 } from './auth.api';
 import toast from 'react-hot-toast';
 import useAuth from './useAuth';
 import { useNavigate } from 'react-router-dom';
 
+// register::
 export const useRegister = () => {
   const { setLoading } = useAuth();
   const navigate = useNavigate();
@@ -27,13 +32,12 @@ export const useRegister = () => {
     },
     onError: (err) => {
       setLoading(false);
-      toast.error('Registration Failed');
-      console.log(err);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
 
-// login:
+// login::
 export const useLogin = () => {
   const navigate = useNavigate();
 
@@ -57,13 +61,12 @@ export const useLogin = () => {
     },
     onError: (err) => {
       setLoading(false);
-      toast.error('Login Failed');
-      console.log(err);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
 
-// get user data:
+// get user data::
 export const useGetUserData = (token) => {
   return useQuery({
     queryKey: ['user', token],
@@ -84,13 +87,115 @@ export const useLogOut = () => {
       setLoading(true);
     },
     onSuccess: () => {
-      setLoading(false);
       clearToken();
       navigate('/auth/login');
+      setLoading(false);
       toast.success('User Logged out Successfully');
     },
-    onError: () => {
-      toast.error('Logout Failed');
+    onError: (err) => {
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// verify email::
+export const useVerifyEmail = () => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationKey: ['verify-email'],
+    mutationFn: (payload) => VerifyEmailFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data?.email) {
+        navigate('/auth/verifyOTP', { state: { email: data.email } });
+        setLoading(false);
+        toast.success('Otp sent to your email address');
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.data?.email?.[0]);
+      console.log(err);
+    },
+  });
+};
+
+// verify otp:
+export const useVerifyOtp = (reset) => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ['verify-otp'],
+    mutationFn: (payload) => OtpVerifyFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setLoading(false);
+        toast.success('Otp verified successfully');
+        navigate('/auth/changePassword', {
+          state: { email: data.email, key: data?.password_reset_token },
+        });
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      reset();
+      toast.error(err?.response?.data?.message);
+      console.log(err);
+    },
+  });
+};
+
+// reset password:
+export const useResetPassword = () => {
+  const { setLoading } = useAuth();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ['reset-password'],
+    mutationFn: (payload) => ResetPasswordFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setLoading(false);
+        toast.success('Password reset successfully');
+        navigate('/auth/login');
+      }
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// ssl login::
+export const useSocialLogin = (setSslLoading) => {
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationKey: ['social-login'],
+    mutationFn: (payload) => GoogleLoginFunc(payload),
+    onMutate: () => {
+      setSslLoading(true);
+    },
+    onSuccess: (data) => {
+      setSslLoading(false);
+      setToken(data?.token);
+      navigate('/');
+      toast.success('Login Successful');
+    },
+    onError: (err) => {
+      setSslLoading(false);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
