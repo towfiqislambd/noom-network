@@ -5,11 +5,12 @@ import facebook from '../assets/icons/facebook.png';
 import instagram from '../assets/icons/instagram.png';
 import x from '../assets/icons/x.png';
 import tiktok from '../assets/icons/tiktok.png';
-import { useFooterInfo } from '@/hooks/cms.queries';
+import { useFooterInfo, useSocialInfo } from '@/hooks/cms.queries';
 
 const Footer = () => {
   const { data: footerInfoData } = useFooterInfo();
-  
+  const { data: socialInfo } = useSocialInfo();
+
   return (
     <footer>
       <div className="text-white py-12">
@@ -65,18 +66,27 @@ const Footer = () => {
               <span className="opacity-85">{footerInfoData?.email}</span>
             </Link>
             <div className="social_icons flex items-center gap-3">
-              <a className="hover:scale-125 duration-300" href="#">
-                <img src={facebook} alt="facebook" />
-              </a>
-              <a className="hover:scale-125 duration-300" href="#">
-                <img src={instagram} alt="instagram" />
-              </a>
-              <a className="hover:scale-125 duration-300" href="#">
-                <img src={x} alt="x" />
-              </a>
-              <a className="hover:scale-125 duration-300" href="#">
-                <img src={tiktok} alt="tiktok" />
-              </a>
+              {socialInfo?.map((item) => (
+                <a
+                  target="_blank"
+                  key={item?.id}
+                  className="hover:scale-125 duration-300"
+                  href={item?.profile_link}
+                >
+                  <img
+                    src={
+                      item?.social_media == 'facebook'
+                        ? facebook
+                        : item?.social_media == 'twitter'
+                        ? x
+                        : item?.social_media == 'linkedin'
+                        ? tiktok
+                        : instagram
+                    }
+                    alt="facebook"
+                  />
+                </a>
+              ))}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import {
   FooterInfoFunc,
   HomepageDataFunction,
   OurFeathers,
+  SocialLinksFunc,
   TestimonialsData,
 } from './cms.api';
 
@@ -39,5 +40,13 @@ export const useFaqInfo = () => {
   return useQuery({
     queryKey: ['faq-info'],
     queryFn: FaqsFunc,
+  });
+};
+
+// social info:
+export const useSocialInfo = () => {
+  return useQuery({
+    queryKey: ['social-info'],
+    queryFn: SocialLinksFunc,
   });
 };

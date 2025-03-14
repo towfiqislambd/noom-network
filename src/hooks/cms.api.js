@@ -1,4 +1,5 @@
 import { axiosPublic } from './useAxiosPublic';
+import { axiosSecure } from './useAxiosSecure';
 
 export const HomepageDataFunction = async () => {
   const { data } = await axiosPublic('/api/home-page');
@@ -25,3 +26,14 @@ export const FaqsFunc = async () => {
   return data?.data;
 };
 
+// social links::
+export const SocialLinksFunc = async () => {
+  const { data } = await axiosPublic('/api/social-links');
+  return data?.data;
+};
+
+// contact us :
+export const ContactUsFunc = async (payload) => {
+  const { data } = await axiosSecure.post('/api/contact-us', payload);
+  return data?.data;
+};
