@@ -19,9 +19,6 @@ const Home = () => {
   const { data: ourFeathers } = useOurFeathers();
   const { data: testimonialData } = useTestimonialData();
 
-  const { user } = useAuth();
- 
-
   return (
     <>
       <Hero data={homepageData?.hero_section} />

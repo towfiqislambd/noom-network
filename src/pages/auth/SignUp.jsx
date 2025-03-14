@@ -5,13 +5,15 @@ import google from '../../assets/icons/google.png';
 import { IoEyeOutline } from 'react-icons/io5';
 import { useState } from 'react';
 import { IoEyeOffOutline } from 'react-icons/io5';
-import { useRegister } from '@/hooks/auth.hook';
+import { useRegister, useSocialLogin } from '@/hooks/auth.hook';
 import useAuth from '@/hooks/useAuth';
 import { ImSpinner9 } from 'react-icons/im';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const SignUp = () => {
   const { loading } = useAuth();
-
+  const [sslLoading, setSslLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
@@ -25,6 +27,7 @@ const SignUp = () => {
 
   //   mutation:
   const { mutateAsync: registerMutation } = useRegister();
+  const { mutateAsync: socialLoginMutation } = useSocialLogin(setSslLoading);
 
   const onSubmit = async (data) => {
     try {
@@ -36,9 +39,38 @@ const SignUp = () => {
   };
 
   // login with google:
-  const handleLoginWithGoogle = () => {
-    console.log('google login');
-  };
+  const handleLoginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log('Google login success:', tokenResponse);
+      const token = tokenResponse.access_token;
+      try {
+        const { data } = await axios(
+          `${import.meta.env.VITE_GOOGLE_URL}/oauth2/v2/userinfo`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(data);
+        const updatedData = {
+          token,
+          provider: 'google',
+          username: data?.name,
+          email: data?.email,
+          avatar: data?.picture,
+        };
+        console.log(updatedData);
+        await socialLoginMutation(updatedData);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    },
+    onError: (error) => {
+      console.error('Google Login Failed:', error);
+    },
+  });
   return (
     <div className="flex my-5 xl:my-0 justify-center items-center min-h-screen max-h-screen">
       <div className="container max-w-[450px] xl:max-w-[987px] xl:grid items-center gap-14 grid-cols-2">
@@ -147,11 +179,21 @@ const SignUp = () => {
             {/* Google sign in btn */}
             <button
               type="button"
-              onClick={handleLoginWithGoogle}
+              onClick={() => handleLoginWithGoogle()}
               className="w-full bg-white text-center flex border rounded-lg py-3 gap-3 font-medium justify-center items-center"
             >
-              <img src={google} alt="google" />
-              <span>Continue with Google</span>
+              {sslLoading ? (
+                <ImSpinner9 className="animate-spin text-primaryBgColor text-lg" />
+              ) : (
+                <span className="flex gap-3">
+                  <img
+                    className="size-6 object-cover"
+                    src={google}
+                    alt="google"
+                  />
+                  <span>Continue with Google</span>
+                </span>
+              )}
             </button>
           </form>
         </div>

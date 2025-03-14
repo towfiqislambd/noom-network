@@ -12,11 +12,12 @@ import axios from 'axios';
 
 const Login = () => {
   const { loading } = useAuth();
+  const [sslLoading, setSslLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   // mutation:
   const { mutateAsync: loginMutation } = useLogin();
-  const { mutateAsync: socialLoginMutation } = useSocialLogin();
+  const { mutateAsync: socialLoginMutation } = useSocialLogin(setSslLoading);
   const {
     register,
     handleSubmit,
@@ -57,7 +58,6 @@ const Login = () => {
         };
         console.log(updatedData);
         await socialLoginMutation(updatedData);
-        // Now you can store this info in state or send it to your backend
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
@@ -163,8 +163,18 @@ const Login = () => {
               onClick={() => handleLoginWithGoogle()}
               className="w-full bg-white text-center flex border rounded-lg py-3 gap-3 font-medium justify-center items-center"
             >
-              <img src={google} alt="google" />
-              <span>Continue with Google</span>
+              {sslLoading ? (
+                <ImSpinner9 className="animate-spin text-primaryBgColor text-lg" />
+              ) : (
+                <span className="flex gap-3">
+                  <img
+                    className="size-6 object-cover"
+                    src={google}
+                    alt="google"
+                  />
+                  <span>Continue with Google</span>
+                </span>
+              )}
             </button>
           </form>
         </div>
