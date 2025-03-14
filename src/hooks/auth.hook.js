@@ -87,9 +87,9 @@ export const useLogOut = () => {
       setLoading(true);
     },
     onSuccess: () => {
-      setLoading(false);
       clearToken();
       navigate('/auth/login');
+      setLoading(false);
       toast.success('User Logged out Successfully');
     },
     onError: (err) => {

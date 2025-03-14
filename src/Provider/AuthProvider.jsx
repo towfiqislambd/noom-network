@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!token) {
       setUser(null);
-      setLoading(false);
+      // setLoading(false);
       return;
     }
 
@@ -31,13 +31,12 @@ const AuthProvider = ({ children }) => {
       setUser(null);
     }
 
-    if (fetchingUserData || loadingUserData) {
+    if (loadingUserData) {
       setLoading(true);
     } else {
       setLoading(false);
     }
   }, [token, userData, fetchingUserData, loadingUserData]);
-
 
   // values to pass:
   const allValues = {
