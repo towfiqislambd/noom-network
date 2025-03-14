@@ -178,15 +178,24 @@ export const useResetPassword = () => {
 };
 
 // ssl login::
-export const useSocialLogin = () => {
+export const useSocialLogin = (setSslLoading) => {
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
   return useMutation({
     mutationKey: ['social-login'],
     mutationFn: (payload) => GoogleLoginFunc(payload),
+    onMutate: () => {
+      setSslLoading(true);
+    },
     onSuccess: (data) => {
-      console.log(data);
+      setSslLoading(false);
+      setToken(data?.token);
+      navigate('/');
+      toast.success('Login Successful');
     },
     onError: (err) => {
-      console.log(err);
+      setSslLoading(false);
+      toast.error(err?.response?.data?.message);
     },
   });
 };
