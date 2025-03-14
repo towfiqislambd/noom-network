@@ -9,7 +9,7 @@ import { useFooterInfo } from '@/hooks/cms.queries';
 
 const Footer = () => {
   const { data: footerInfoData } = useFooterInfo();
-  console.log(footerInfoData);
+  
   return (
     <footer>
       <div className="text-white py-12">

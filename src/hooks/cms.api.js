@@ -19,4 +19,9 @@ export const FooterInfoFunc = async () => {
   return data?.data;
 };
 
-// contact us::
+// faq::
+export const FaqsFunc = async () => {
+  const { data } = await axiosPublic('/api/faq/all');
+  return data?.data;
+};
+

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import {
+  FaqsFunc,
   FooterInfoFunc,
   HomepageDataFunction,
   OurFeathers,
@@ -30,5 +31,13 @@ export const useFooterInfo = () => {
   return useQuery({
     queryKey: ['footer-info'],
     queryFn: FooterInfoFunc,
+  });
+};
+
+// faq info:
+export const useFaqInfo = () => {
+  return useQuery({
+    queryKey: ['faq-info'],
+    queryFn: FaqsFunc,
   });
 };

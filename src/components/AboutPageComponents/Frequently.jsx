@@ -3,9 +3,11 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
+import { useFaqInfo } from '@/hooks/cms.queries';
 
 const Frequently = () => {
+  const { data: faqData } = useFaqInfo();
   return (
     <div className="bg-gradient-to-r from-[#EFF6FD] to-[#EBF8F7] via-[#EFF6FD] pb-10">
       <div className="container ">
@@ -23,46 +25,14 @@ const Frequently = () => {
             collapsible
             className="w-full border-t border-[#34B4B3]"
           >
-            <AccordionItem value="item-1">
-              <AccordionTrigger className='text-lg sm:text-xl'>
-                What is the process for buying a property through your platform?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we work with trusted financial partners to help buyers
-                secure home loans or mortgages at competitive rates. You can
-                explore financing options through our platform.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger className='text-lg sm:text-xl'>
-                Do you assist with financing options for property purchases?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we work with trusted financial partners to help buyers
-                secure home loans or mortgages at competitive rates. You can
-                explore financing options through our platform.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className='text-lg sm:text-xl'>
-                Are the property listings on your platform verified?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we work with trusted financial partners to help buyers
-                secure home loans or mortgages at competitive rates. You can
-                explore financing options through our platform.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger className='text-lg sm:text-xl'>
-                Can I schedule a property tour online?
-              </AccordionTrigger>
-              <AccordionContent>
-                Yes, we work with trusted financial partners to help buyers
-                secure home loans or mortgages at competitive rates. You can
-                explore financing options through our platform.
-              </AccordionContent>
-            </AccordionItem>
+            {faqData?.map((item) => (
+              <AccordionItem key={item?.id} value={`item-${item?.id}`}>
+                <AccordionTrigger className="text-lg sm:text-xl">
+                  {item?.question}
+                </AccordionTrigger>
+                <AccordionContent>${item?.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
       </div>
