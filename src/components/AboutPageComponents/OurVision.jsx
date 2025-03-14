@@ -1,4 +1,8 @@
+import { useAchievements } from '@/hooks/cms.queries';
+import AchievementsCard from '../Cards/AchievementsCard';
+
 const OurVision = () => {
+  const { data: achievementsData } = useAchievements();
   return (
     <div id="OurVision">
       <div className="container grid grid-cols-1 xl:grid-cols-12 py-14 sm:py-20 gap-10 xl:py-32">
@@ -27,42 +31,9 @@ const OurVision = () => {
         <div className="hidden xl:block col-span-2"></div>
         {/* curd item */}
         <div className="xl:col-span-5 grid md:grid-cols-2 gap-3 sm:gap-5 w-full">
-          {/* card 1 */}
-          <div className="flex flex-col items-center justify-center gap-[6px] w-full  p-[40px] bg-[#024C89] rounded-[8px]">
-            <h1 className="text-white text-center font-workSans text-[32px] font-semibold leading-[48px]">
-              5000+
-            </h1>
-            <p className="text-white text-center font-workSans text-[16px] font-normal leading-[27px]">
-              Satisfied clients
-            </p>
-          </div>
-          {/* card 2 */}
-          <div className="flex flex-col items-center justify-center gap-[6px] w-full  p-[40px] bg-[#024C89] rounded-[8px]">
-            <h1 className="text-white text-center font-workSans text-[32px] font-semibold leading-[48px]">
-              10,000+
-            </h1>
-            <p className="text-white text-center font-workSans text-[16px] font-normal leading-[27px]">
-              Portfolio Management
-            </p>
-          </div>
-          {/* card 3 */}
-          <div className="flex flex-col items-center justify-center gap-[6px] w-full p-[40px] bg-[#024C89] rounded-[8px]">
-            <h1 className="text-white text-center font-workSans text-[32px] font-semibold leading-[48px]">
-              10+
-            </h1>
-            <p className="text-white text-center font-workSans text-[16px] font-normal leading-[27px]">
-              Successful Years
-            </p>
-          </div>
-          {/* card 4 */}
-          <div className="flex flex-col items-center justify-center gap-[6px] w-full p-[40px] bg-[#024C89] rounded-[8px]">
-            <h1 className="text-white text-center font-workSans text-[32px] font-semibold leading-[48px]">
-              30000+
-            </h1>
-            <p className="text-white text-center font-workSans text-[16px] font-normal leading-[27px]">
-              Property Forecasting
-            </p>
-          </div>
+          {achievementsData?.map((item) => (
+            <AchievementsCard key={item?.id} data={item} />
+          ))}
         </div>
       </div>
     </div>

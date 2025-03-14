@@ -15,8 +15,13 @@ export const LoginFunc = async (payload) => {
 
 // get user data::
 export const GetUserDataFunc = async () => {
-  const { data } = await axiosSecure('/api/users/data');
-  return data;
+  try {
+    const { data } = await axiosSecure.get('/api/users/data');
+    return data;
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    throw error; // Ensure the error is handled in React Query
+  }
 };
 
 // logout::

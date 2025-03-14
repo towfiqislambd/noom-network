@@ -33,11 +33,16 @@
 
     /* Custom Colors */
     --primaryBgColor: #025397;
-    --primaryTextColor: #4F4F4F;
+    --primaryTextColor: #4f4f4f;
     --headingTextColor: #101828;
-    --btnBg: #2A6EA3;
-    --copyrightBg: #EBF8F7;
-    --footerBg: linear-gradient(0deg, rgba(52, 180, 179, 0.20) 0%, rgba(52, 180, 179, 0.20) 100%), #024C89;
+    --btnBg: #2a6ea3;
+    --copyrightBg: #ebf8f7;
+    --footerBg: linear-gradient(
+        0deg,
+        rgba(52, 180, 179, 0.2) 0%,
+        rgba(52, 180, 179, 0.2) 100%
+      ),
+      #024c89;
   }
 
   .dark {
@@ -64,7 +69,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -88,11 +93,16 @@
 }
 
 nav ul.allLinks li a.active {
-  @apply !text-primaryBgColor border-b-2 border-btnBg pb-2
+  @apply !text-primaryBgColor border-b-2 border-btnBg pb-2;
 }
 
 footer {
-  background: linear-gradient(0deg, rgba(52, 180, 179, 0.20) 0%, rgba(52, 180, 179, 0.20) 100%), #024C89;
+  background: linear-gradient(
+      0deg,
+      rgba(52, 180, 179, 0.2) 0%,
+      rgba(52, 180, 179, 0.2) 100%
+    ),
+    #024c89;
 }
 
 header {
@@ -100,28 +110,28 @@ header {
 }
 
 #features {
-  background: linear-gradient(114deg, #EFF6FD 46%, #EBF8F7 100%);
+  background: linear-gradient(114deg, #eff6fd 46%, #ebf8f7 100%);
 }
 
 #simpleSteps,
 #testimonial {
-  background: linear-gradient(231deg, #EFF7FD 0%, #EBF8F7 100%);
+  background: linear-gradient(231deg, #eff7fd 0%, #ebf8f7 100%);
 }
 
 #strugglingImg {
-  background: url("./assets/struggling.png") no-repeat center / cover;
+  background: url('./assets/struggling.png') no-repeat center / cover;
 }
 
 #contactUs {
-  background: linear-gradient(180deg, #EEF4F9 0%, #F5FBFF 100%);
+  background: linear-gradient(180deg, #eef4f9 0%, #f5fbff 100%);
 }
 
 #OurVision {
-  background: url("./assets/Ourvision.png") no-repeat center / cover;
+  background: url('./assets/Ourvision.png') no-repeat center / cover;
 }
 
 #signUpForm input::placeholder {
-  color: #4F4F4F;
+  color: #4f4f4f;
 }
 
 /* For OTP */
@@ -132,16 +142,16 @@ header {
 #otp_container div input {
   width: 60px !important;
   height: 60px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   border-radius: 5px;
 }
 
 #otp_container div input:focus {
-  outline: 2px solid #024C89;
+  outline: 2px solid #024c89;
 }
 
 #dashboardSidebar ul li a.active {
-  background: #E6ECFD;
+  background: #e6ecfd;
   color: #025397;
 }
 
@@ -151,7 +161,7 @@ header {
 }
 
 #sideNavbar li a.active {
-  background: #E6ECFD;
+  background: #e6ecfd;
   color: #025397;
 }
 
@@ -174,7 +184,70 @@ header {
   background: #025497bc;
 }
 
-@media screen and (max-width:480px) {
+/* custom accordion:start */
+.accordion-trigger .accordion-open {
+  @apply block;
+  animation: rotate-plus 0.3s ease-in-out forwards, fadeIn 0.3s ease-in-out;
+}
+
+.accordion-trigger .accordion-close {
+  @apply hidden;
+  animation: rotate-minus 0.3s ease-in-out forwards, fadeOut 0.3s ease-in-out;
+}
+
+.accordion-trigger[data-state='open'] .accordion-open {
+  @apply hidden;
+  animation: rotate-plus 0.3s ease-in-out forwards, fadeOut 0.3s ease-in-out;
+}
+
+.accordion-trigger[data-state='open'] .accordion-close {
+  @apply block;
+  animation: rotate-minus 0.3s ease-in-out forwards, fadeIn 0.3s ease-in-out;
+}
+
+/* Smooth Rotate for + (open icon) */
+@keyframes rotate-plus {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg); /* Makes the + turn into × smoothly */
+  }
+}
+
+/* Smooth Rotate for × (close icon) */
+@keyframes rotate-minus {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Fade In Effect */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Fade Out Effect */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* custom accordion :end*/
+
+@media screen and (max-width: 480px) {
   #otp_container div {
     gap: 10px;
   }
@@ -182,5 +255,15 @@ header {
   #otp_container div input {
     width: 50px !important;
     height: 50px;
+  }
+
+  .accordion-trigger .accordion-plus {
+    @apply block;
+    animation: rotating90 0.3s linear;
+  }
+
+  .accordion-trigger .accordion-minus {
+    @apply hidden;
+    animation: rotating180 0.3s linear;
   }
 }

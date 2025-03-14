@@ -1,12 +1,12 @@
-import * as React from "react";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { cn } from '@/lib/utils';
 
 // Custom SVG Icon (replace this with any icon you prefer)
-const CustomIconClose = () => (
+const CustomIconClose = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
+    className={`w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] ${className}`}
     viewBox="0 0 80 80"
     fill="none"
   >
@@ -20,10 +20,10 @@ const CustomIconClose = () => (
   </svg>
 );
 
-const CustomIconOpen = () => (
+const CustomIconOpen = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[40px] h-[40px] lg:w-[50px] lg:h-[50px]"
+    className={`w-[40px] h-[40px] lg:w-[50px] lg:h-[50px] ${className}`}
     viewBox="0 0 50 50"
     fill="#FFFFFF"
   >
@@ -59,36 +59,28 @@ const Accordion = AccordionPrimitive.Root;
 const AccordionItem = React.forwardRef(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b border-[#34B4B3]", className)}
+    className={cn('border-b border-[#34B4B3]', className)}
     {...props}
   />
 ));
-AccordionItem.displayName = "AccordionItem";
+AccordionItem.displayName = 'AccordionItem';
 
 const AccordionTrigger = React.forwardRef(
   ({ className, children, ...props }, ref) => {
-    const [isOpen, setIsOpen] = React.useState(false);
-
     return (
       <AccordionPrimitive.Header className="flex">
         <AccordionPrimitive.Trigger
           ref={ref}
           className={cn(
-            "grid grid-cols-12 w-full items-center justify-between py-4 transition-all text-left [&[data-state=open]>svg]:rotate-180 text-black font-workSans text-[20px] font-medium leading-[36px]",
+            'accordion-trigger grid grid-cols-12 w-full items-center justify-between py-4 transition-all text-left [&[data-state=open]>svg]:rotate-180 text-black font-workSans text-[20px] font-medium leading-[36px]',
             className
           )}
           {...props}
-          onClick={() => setIsOpen(!isOpen)} // Toggle open/close state
         >
-          <div className="col-span-10">
-            {children}
-          </div>
+          <div className="col-span-10">{children}</div>
           <div className="col-span-2 justify-self-end">
-            {isOpen ? (
-              <CustomIconClose className="!h-4 !w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
-            ) : (
-              <CustomIconOpen className="!h-4 !w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
-            )}
+            <CustomIconOpen className="accordion-open" />
+            <CustomIconClose className="accordion-close" />
           </div>
         </AccordionPrimitive.Trigger>
       </AccordionPrimitive.Header>
@@ -104,7 +96,7 @@ const AccordionContent = React.forwardRef(
       className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down text-[#786F77] font-workSans text-[16px] font-medium leading-[25.2px]"
       {...props}
     >
-      <div className={cn("pb-4 pt-0", className)}>{children}</div>
+      <div className={cn('pb-4 pt-0', className)}>{children}</div>
     </AccordionPrimitive.Content>
   )
 );
