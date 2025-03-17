@@ -1,8 +1,43 @@
+import useAuth from '@/hooks/useAuth';
 import {
   PricingCardTickLight,
   PricingCardTickSvg,
 } from '../SvgContainer/SvgContainer';
+import toast from 'react-hot-toast';
+import { useSubscriptionPlan } from '@/hooks/cms.mutations';
+import { useState } from 'react';
+import { ImSpinner6 } from 'react-icons/im';
+
 const SubscriptionCard = ({ data, light }) => {
+  const [loading, setLoading] = useState(false);
+  const { mutateAsync: subscriptionPlanMutation } =
+    useSubscriptionPlan(setLoading);
+  const { user } = useAuth();
+
+  const handleSubscription = async () => {
+    // Add your subscription logic here
+    if (!user) {
+      toast.error('Please login to subscribe to a plan');
+      return;
+    } else {
+      if (data?.price == 5) {
+        const updatedData = {
+          stripe_price_id: data?.stripe_price_id,
+          success_url: 'http://localhost:5173/',
+          cancel_url: 'http://localhost:5173/',
+        };
+        await subscriptionPlanMutation(updatedData);
+      }
+      if (data?.price == 50) {
+        const updatedData = {
+          stripe_price_id: data?.stripe_price_id,
+          success_url: 'http://localhost:5173/',
+          cancel_url: 'http://localhost:5173/',
+        };
+        await subscriptionPlanMutation(updatedData);
+      }
+    }
+  };
   return (
     <div
       className={`w-full xl:w-[450px] space-y-3 border rounded-xl p-4 sm:p-6  border-primaryBgColor ${
@@ -19,13 +54,18 @@ const SubscriptionCard = ({ data, light }) => {
         </span>
       </p>
       <button
-        className={`block duration-300  border-gray-400 font-medium w-full py-2 md:py-3 border rounded-lg shadow-sm ${
+        onClick={handleSubscription}
+        className={`duration-300 flex items-center justify-center  border-gray-400 font-medium w-full py-2 md:py-3 border rounded-lg shadow-sm ${
           light
             ? 'bg-white text-black'
             : 'hover:text-white hover:bg-primaryBgColor'
         }`}
       >
-        Subscribe
+        {loading ? (
+          <ImSpinner6 className={`animate-spin text-2xl`} />
+        ) : (
+          'Subscribe'
+        )}
       </button>
       <ul className="space-y-4 pt-3">
         <li className="flex items-center gap-2">

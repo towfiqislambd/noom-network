@@ -101,7 +101,7 @@ const Navbar = () => {
         </div>
       </nav>
       {/* Side Navbar */}
-      <SideNavbar isOpen={isOpen} setOpen={setOpen} />
+      <SideNavbar user={user} isOpen={isOpen} setOpen={setOpen} />
     </>
   );
 };

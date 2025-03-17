@@ -62,3 +62,4 @@ export const GoogleLoginFunc = async (payload) => {
   const { data } = await axiosPublic.post('/api/social-login', payload);
   return data?.data;
 };
+
