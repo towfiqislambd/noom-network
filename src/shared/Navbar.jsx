@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { FaBars, FaCircleUser } from 'react-icons/fa6';
 import { useState } from 'react';
@@ -10,6 +10,28 @@ const Navbar = () => {
   const { user } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const { mutate: logOutMutate } = useLogOut();
+  const location = useLocation().pathname;
+  console.log(location);
+
+  // navLinks:
+  const navLinks = [
+    {
+      path: '/',
+      title: 'Home',
+    },
+    {
+      path: '/aboutUs',
+      title: 'About Us',
+    },
+    {
+      path: '/contactUs',
+      title: 'Contact Us',
+    },
+    {
+      path: '/dashboard/myPortfolio',
+      title: 'Dashboard',
+    },
+  ];
 
   const handleLogout = () => {
     logOutMutate();
@@ -24,9 +46,28 @@ const Navbar = () => {
           </Link>
           {/* Nav Links */}
           <ul className="hidden xl:flex allLinks items-center gap-5 2xl:gap-7 text-xl font-medium">
-            <li>
+            {navLinks?.map((item) => (
+              <li key={item?.title}>
+                <NavLink
+                  to={item?.path}
+                  className={({ isActive }) =>
+                    `group relative px-4 overflow-hidden pb-2 duration-300 ease-in-out ${
+                      isActive ? 'text-primaryBgColor' : 'text-current'
+                    }`
+                  }
+                >
+                  <span className="relative z-10">{item?.title}</span>
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-[2px] bg-btnBg transform scale-x-0 group-hover:scale-x-100 transition-all duration-300 ease-in-out ${
+                      location == item?.path ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
+                </NavLink>
+              </li>
+            ))}
+            {/* <li>
               <NavLink
-                className="px-4 hover:text-primaryBgColor border-transparent overflow-hidden border-b-2 hover:border-btnBg pb-2 duration-400"
+                className="px-4 hover:text-primaryBgColor border-transparent overflow-hidden border-b-2 hover:border-btnBg pb-2 duration-300"
                 to="/"
               >
                 Home
@@ -55,7 +96,7 @@ const Navbar = () => {
               >
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
           </ul>
           {/* auth btn */}
           {user ? (
