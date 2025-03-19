@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   GetUserDataFunc,
   GoogleLoginFunc,
@@ -7,6 +7,8 @@ import {
   OtpVerifyFunc,
   RegisterFunc,
   ResetPasswordFunc,
+  UpdatePasswordDashboardFunc,
+  UpdateUserFunc,
   VerifyEmailFunc,
 } from './auth.api';
 import toast from 'react-hot-toast';
@@ -195,6 +197,46 @@ export const useSocialLogin = (setSslLoading) => {
     },
     onError: (err) => {
       setSslLoading(false);
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// update user mutation:
+export const useUpdateUser = (setLoading) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ['update-user'],
+    mutationFn: (payload) => UpdateUserFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      setLoading(false);
+      queryClient.invalidateQueries(['user']);
+      toast.success('User Updated Successfully');
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// update password dashboard::
+export const useUserPasswordUpdate = (setLoading) => {
+  return useMutation({
+    mutationKey: ['update-password'],
+    mutationFn: (payload) => UpdatePasswordDashboardFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      setLoading(false);
+      toast.success('Password Updated Successfully');
+    },
+    onError: (err) => {
+      setLoading(false);
       toast.error(err?.response?.data?.message);
     },
   });

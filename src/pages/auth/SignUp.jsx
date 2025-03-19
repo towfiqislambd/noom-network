@@ -88,6 +88,19 @@ const SignUp = () => {
             <span className="text-[#4F4F4F] font-medium">
               Welcome to Network
             </span>
+            {/* First name field */}
+            <div className="md:my-8 my-5">
+              <input
+                type="name"
+                {...register('name', { required: true })}
+                placeholder="Full Name"
+                className="bg-transparent outline-none border-b pb-3 mb-2 block w-full border-gray-400"
+              />
+              {errors.name && (
+                <span className="text-red-500">Full Name is required</span>
+              )}
+            </div>
+
             {/* Email field */}
             <div className="md:my-8 my-5">
               <input

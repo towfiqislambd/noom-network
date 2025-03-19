@@ -15,6 +15,8 @@ import { RiMoneyPoundCircleLine } from 'react-icons/ri';
 import { FaBars, FaChartBar } from 'react-icons/fa6';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
+import useAuth from '@/hooks/useAuth';
+import { useLogOut } from '@/hooks/auth.hook';
 
 const notificationData = [
   {
@@ -80,10 +82,17 @@ const notificationData = [
 ];
 
 const DashboardLayout = () => {
+  const { user } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [showSmallSidebar, setShowSmallSidebar] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+   const { mutate: logOutMutate } = useLogOut();
+
+  // handler:
+  const handleLogout = () => {
+    logOutMutate();
+  };
 
   return (
     <>
@@ -143,7 +152,10 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
               <li>
-                <button className="flex w-full hover:scale-[1.02] hover:bg-[#E6ECFD] hover:text-[#025397] transition-all duration-500 rounded-[7px] px-[20px] py-[10px] gap-3 items-center">
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full hover:scale-[1.02] hover:bg-[#E6ECFD] hover:text-[#025397] transition-all duration-500 rounded-[7px] px-[20px] py-[10px] gap-3 items-center"
+                >
                   <FiLogOut className="text-2xl" />
                   <span>Logout</span>
                 </button>
@@ -268,12 +280,12 @@ const DashboardLayout = () => {
                   />
                 </figure>
                 <p className="font-roboto lg:hidden text-[#333] font-medium">
-                  Mosharaf Hossain
+                  {user?.name}
                 </p>
               </div>
               {/* user name */}
               <p className="font-roboto hidden lg:block text-[#333] font-medium">
-                Mosharaf Hossain
+                {user?.name}
               </p>
               <div className="flex gap-3 item-center">
                 {/* notification trigger from here */}

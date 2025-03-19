@@ -11,7 +11,6 @@ const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
   const { mutate: logOutMutate } = useLogOut();
   const location = useLocation().pathname;
-  console.log(location);
 
   // navLinks:
   const navLinks = [
@@ -101,12 +100,10 @@ const Navbar = () => {
           {/* auth btn */}
           {user ? (
             <div className="hidden xl:flex items-center gap-5">
-              <div
-                className="font-medium hover:text-primaryBgColor duration-300 text-lg text-primaryTextColorColor"
-                to="/auth/login"
-              >
-                <Link to="/dashboard/myPortfolio">
+              <div className="font-medium hover:text-primaryBgColor duration-300 text-lg text-primaryTextColorColor">
+                <Link to="/dashboard/myPortfolio" className='flex items-center gap-2'>
                   <FaCircleUser className="size-8 cursor-pointer" />
+                  <span>{user?.name}</span>
                 </Link>
               </div>
               <button
