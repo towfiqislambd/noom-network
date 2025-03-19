@@ -56,4 +56,8 @@ export const AchievementsFunc = async () => {
   return data?.data;
 };
 
-// our partners::
+// subscription::
+export const SubscriptionPlanFunc = async (payload) => {
+  const { data } = await axiosSecure.post('/api/stripe-payment', payload);
+  return data?.data;
+};

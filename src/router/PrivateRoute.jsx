@@ -3,11 +3,13 @@ import useAuth from '@/hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, token, loading } = useAuth();
+
+  console.log(user);
 
   if (loading) return <Loader />;
 
-  if (user) return children;
+  if (token || user) return children;
 
   return <Navigate to="/auth/login" state={location?.pathname} replace />;
 };

@@ -18,6 +18,7 @@ import PortfolioForecasting from '@/pages/dashboard/PortfolioForecasting';
 import ChangePassword from '@/pages/auth/ChangePassword';
 import { createBrowserRouter } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
+import PropertyDetails from '@/pages/dashboard/PropertyDetails';
 
 const router = createBrowserRouter([
   // Main Layout
@@ -121,6 +122,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Settings />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/dashboard/property-details/:id',
+        element: (
+          <PrivateRoute>
+            <PropertyDetails />
           </PrivateRoute>
         ),
       },

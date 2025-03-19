@@ -62,3 +62,22 @@ export const GoogleLoginFunc = async (payload) => {
   const { data } = await axiosPublic.post('/api/social-login', payload);
   return data?.data;
 };
+
+// update user::
+export const UpdateUserFunc = async (payload) => {
+  const { data } = await axiosSecure.post('/api/users/data/update', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return data?.data;
+};
+
+// update password from dashboard::
+export const UpdatePasswordDashboardFunc = async (payload) => {
+  const { data } = await axiosSecure.post(
+    '/api/users/password/change',
+    payload
+  );
+  return data?.data;
+};

@@ -4,6 +4,7 @@ import SubscriptionCard from '../Cards/SubscriptionCard';
 
 const Pricing = () => {
   const { data: subscriptionData } = useSubscription();
+
   return (
     <section className="bg-[#F5FBFF] py-14 sm:py-20">
       <div className="container">
