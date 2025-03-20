@@ -13,7 +13,7 @@ const SubscriptionCard = ({ data, light }) => {
   const { mutateAsync: subscriptionPlanMutation } =
     useSubscriptionPlan(setLoading);
   const { user } = useAuth();
-  console.log(user?.type);
+  // console.log(data);
 
   const handleSubscription = async () => {
     // Add your subscription logic here
@@ -26,6 +26,7 @@ const SubscriptionCard = ({ data, light }) => {
           stripe_price_id: data?.stripe_price_id,
           success_url: 'http://localhost:5173/',
           cancel_url: 'http://localhost:5173/',
+          type: data?.type,
         };
         if (user?.type == 'monthly') {
           toast.error('You are already subscribed to this plan');
@@ -39,8 +40,14 @@ const SubscriptionCard = ({ data, light }) => {
           stripe_price_id: data?.stripe_price_id,
           success_url: 'http://localhost:5173/',
           cancel_url: 'http://localhost:5173/',
+          type: data?.type,
         };
-        await subscriptionPlanMutation(updatedData);
+        if (user?.type == 'yearly') {
+          toast.error('You are already subscribed to this plan');
+          return;
+        } else {
+          await subscriptionPlanMutation(updatedData);
+        }
       }
     }
   };
