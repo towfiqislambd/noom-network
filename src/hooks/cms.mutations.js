@@ -47,7 +47,6 @@ export const useSubscriptionPlan = (setLoading) => {
 };
 
 // create properties:
-
 export const useCreateProperty = (setLoading) => {
   const navigate = useNavigate();
   return useMutation({

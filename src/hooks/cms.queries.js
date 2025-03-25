@@ -5,6 +5,7 @@ import {
   FaqsFunc,
   FooterInfoFunc,
   GetAllPropertiesFunc,
+  GetSinglePropertyFunc,
   HomepageDataFunction,
   OurFeathers,
   SocialLinksFunc,
@@ -84,5 +85,13 @@ export const useGetAllProperties = () => {
   return useQuery({
     queryKey: ['all-properties'],
     queryFn: GetAllPropertiesFunc,
+  });
+};
+
+// get single properties:
+export const useGetSingleProperty = (id) => {
+  return useQuery({
+    queryKey: ['single-property', id],
+    queryFn: () => GetSinglePropertyFunc(id),
   });
 };

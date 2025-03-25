@@ -77,3 +77,9 @@ export const GetAllPropertiesFunc = async () => {
   const { data } = await axiosSecure('/api/porperty/all');
   return data?.data;
 };
+
+// get single property:
+export const GetSinglePropertyFunc = async (id) => {
+  const { data } = await axiosSecure(`/api/porperty/single/${id}`);
+  return data?.data?.porperty[0];
+};
