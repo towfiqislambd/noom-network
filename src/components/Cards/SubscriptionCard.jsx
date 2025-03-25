@@ -24,8 +24,8 @@ const SubscriptionCard = ({ data, light }) => {
       if (data?.price == 5) {
         const updatedData = {
           stripe_price_id: data?.stripe_price_id,
-          success_url: 'http://localhost:5173/',
-          cancel_url: 'http://localhost:5173/',
+          success_url: 'https://ubiquitous-quokka-a3870c.netlify.app/',
+          cancel_url: 'https://ubiquitous-quokka-a3870c.netlify.app/',
           type: data?.type,
         };
         if (user?.type == 'monthly') {
@@ -38,8 +38,8 @@ const SubscriptionCard = ({ data, light }) => {
       if (data?.price == 50) {
         const updatedData = {
           stripe_price_id: data?.stripe_price_id,
-          success_url: 'http://localhost:5173/',
-          cancel_url: 'http://localhost:5173/',
+          success_url: 'https://ubiquitous-quokka-a3870c.netlify.app/',
+          cancel_url: 'https://ubiquitous-quokka-a3870c.netlify.app/',
           type: data?.type,
         };
         if (user?.type == 'yearly') {
