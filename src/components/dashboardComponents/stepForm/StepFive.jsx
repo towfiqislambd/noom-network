@@ -9,10 +9,18 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
 
   const onSubmit = (data) => {
     if (data) {
-      setAllFormData({ ...allFormData, ...data });
+      const updatedData = {
+        ...allFormData,
+        ...data,
+        bedrooms: [data.bedrooms],
+        bathrooms: [data.bathrooms],
+      };
+      setAllFormData(updatedData);
       setStep(step + 1);
     }
   };
+
+  
   const handlePrevStep = (e) => {
     e.preventDefault();
     setStep(step - 1);
@@ -31,7 +39,7 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
             </label>
             <select
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-              {...register('propertyType', { required: true })}
+              {...register('property_type', { required: true })}
             >
               <option value="Triplex">Triplex</option>
               <option value="Condo / Apartment">Condo / Apartment</option>
@@ -45,133 +53,56 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
           {/* Number of Units */}
           <div className="self-end">
             <label
-              htmlFor="numberOfUnits"
+              htmlFor="units"
               className="xs:text-lg md:text-xl font-medium"
             >
               Number of Units
             </label>
             <input
-              id="numberOfUnits"
+              id="units"
               type="number"
-              {...register('numberOfUnits', { required: true })}
+              {...register('units', { required: true })}
               placeholder="Enter number of units"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.numberOfUnits && (
+            {errors.units && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
-          {/* Unit 1 Bedrooms */}
           <div className="self-end">
             <label
-              htmlFor="unitOneBedrooms"
+              htmlFor="bedrooms"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Unit 1 Bedrooms
+              Total Number Bedrooms
             </label>
             <input
-              id="unitOneBedrooms"
+              id="bedrooms"
               type="number"
-              {...register('unitOneBedrooms', { required: true })}
+              {...register('bedrooms', { required: true })}
               placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.unitOneBedrooms && (
+            {errors.bedrooms && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
-          {/* Unit 1 Bathrooms (including partial) */}
+          {/* Total Number Bathrooms (including partial) */}
           <div className="self-end">
             <label
-              htmlFor="unitOneBathrooms"
+              htmlFor="bathrooms"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Unit 1 Bathrooms (including partial)
+              Total Number Bathrooms (including partial)
             </label>
             <input
-              id="unitOneBathrooms"
+              id="bathrooms"
               type="number"
-              {...register('unitOneBathrooms', { required: true })}
-              placeholder="Enter number of bathrooms"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.unitOneBathrooms && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
-          {/* Unit 2 Bedrooms */}
-          <div className="self-end">
-            <label
-              htmlFor="unitTwoBedrooms"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Unit 2 Bedrooms
-            </label>
-            <input
-              id="unitTwoBedrooms"
-              type="number"
-              {...register('unitTwoBedrooms', { required: true })}
+              {...register('bathrooms', { required: true })}
               placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.unitTwoBedrooms && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
-          {/* Unit 2 Bathrooms */}
-          <div className="self-end">
-            <label
-              htmlFor="unitTwoBathrooms"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Unit 2 Bathrooms
-            </label>
-            <input
-              id="unitTwoBathrooms"
-              type="number"
-              {...register('unitTwoBathrooms', { required: true })}
-              placeholder="Enter number of bathrooms"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.unitTwoBathrooms && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
-          {/* Unit 3 Bedrooms */}
-          <div className="self-end">
-            <label
-              htmlFor="unitThreeBedrooms"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Unit 3 Bedrooms
-            </label>
-            <input
-              id="unitThreeBedrooms"
-              type="number"
-              {...register('unitThreeBedrooms', { required: true })}
-              placeholder="Enter number of bedrooms"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.unitThreeBedrooms && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
-          {/* Unit 3 Bathrooms */}
-          <div className="self-end">
-            <label
-              htmlFor="unitThreeBathrooms"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Unit 3 Bathrooms
-            </label>
-            <input
-              id="unitThreeBathrooms"
-              type="number"
-              {...register('unitThreeBathrooms', { required: true })}
-              placeholder="Enter number of bathrooms"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.unitThreeBathrooms && (
+            {errors.bathrooms && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>

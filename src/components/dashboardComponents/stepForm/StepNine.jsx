@@ -1,14 +1,76 @@
+import { useCreateProperty } from '@/hooks/cms.mutations';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-const StepNine = ({ step, setStep, allFormData, setAllFormData }) => {
+const StepNine = ({
+  step,
+  setStep,
+  allFormData,
+  setAllFormData,
+  totalIncome,
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [currentExpense, setCurrentExpense] = useState(0);
+  const [remainingIncome, setRemainingIncome] = useState(totalIncome);
+
+  // mutation:
+  const { mutateAsync: createPropertyMutation } = useCreateProperty(setLoading);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
+    watch,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      totalMonthlyIncome: totalIncome,
+    },
+  });
+
+  // Watch all expense fields
+  const watchedFields = watch([
+    'monthly_tax',
+    'property_managment',
+    'monthly_insurance',
+    'average_vacancy',
+    'total_unitlities_amount',
+    'other_expense',
+  ]);
+
+  // Calculate current expense whenever any expense field changes
+  useEffect(() => {
+    // Convert watched fields to numbers, defaulting to 0 if empty or NaN
+    const expenses = watchedFields.map((val) => Number(val) || 0);
+
+    // Sum up all expenses except monthly_rent
+    const totalExpense = expenses.reduce((sum, expense) => sum + expense, 0);
+
+    // Update current expense
+    setCurrentExpense(totalExpense);
+
+    // Calculate remaining income
+    const newRemainingIncome = totalIncome - totalExpense;
+    setRemainingIncome(newRemainingIncome);
+
+    // Set values for form submission
+    setValue('cuurent_expense', totalExpense);
+    setValue('totalMonthlyIncome', newRemainingIncome);
+  }, [watchedFields, totalIncome, setValue]);
+
+  const onSubmit = async (data) => {
     if (data) {
-      setAllFormData({ ...allFormData, ...data });
+      const updatedData = {
+        ...allFormData,
+        ...data,
+        other_expense: [data.other_expense], // Wrap only this field in an array
+        total_monthly_expense: currentExpense,
+        total_monthly_income: remainingIncome,
+      };
+
+      setAllFormData(updatedData);
+      await createPropertyMutation(updatedData);
+
       setStep(step + 1);
     }
   };
@@ -17,6 +79,7 @@ const StepNine = ({ step, setStep, allFormData, setAllFormData }) => {
     e.preventDefault();
     setStep(step - 1);
   };
+
   return (
     <div className="bg-white rounded-xl shadow p-5 lg:px-[50px] lg:py-[50px] 3xl:px-[180px] 3xl:py-[108px]">
       <h2 className="xs:text-lg md:text-2xl font-semibold mb-7 md:mb-10 text-headingTextColor">
@@ -30,196 +93,212 @@ const StepNine = ({ step, setStep, allFormData, setAllFormData }) => {
           {/* Monthly Property Taxes */}
           <div className="self-end">
             <label
-              htmlFor="monthlyRent"
+              htmlFor="monthly_tax"
               className="xs:text-lg md:text-xl font-medium"
             >
               Monthly Property Taxes
             </label>
             <input
-              id="monthlyRent"
+              id="monthly_tax"
               type="number"
-              {...register('monthlyRent', { required: true })}
-              placeholder="Enter your monthly rent"
+              {...register('monthly_tax', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter monthly property taxes"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.monthlyRent && (
+            {errors.monthly_tax && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Monthly Property Management */}
           <div className="self-end">
             <label
-              htmlFor="propertyManagement"
+              htmlFor="property_managment"
               className="xs:text-lg md:text-xl font-medium"
             >
               Monthly Property Management
             </label>
             <input
-              id="propertyManagement"
-              type="text"
-              {...register('propertyManagement', { required: true })}
-              placeholder="Carparking"
+              id="property_managment"
+              type="number"
+              {...register('property_managment', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter property management cost"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.propertyManagement && (
+            {errors.property_managment && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Monthly Insurance */}
           <div className="self-end">
             <label
-              htmlFor="monthlyInsurance"
+              htmlFor="monthly_insurance"
               className="xs:text-lg md:text-xl font-medium"
             >
               Monthly Insurance
             </label>
             <input
-              id="monthlyInsurance"
+              id="monthly_insurance"
               type="number"
-              {...register('monthlyInsurance', { required: true })}
-              placeholder="Enter your monthly rent"
+              {...register('monthly_insurance', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter monthly insurance"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.monthlyInsurance && (
+            {errors.monthly_insurance && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Average Vacancy */}
           <div className="self-end">
             <label
-              htmlFor="averageVacancy"
+              htmlFor="average_vacancy"
               className="xs:text-lg md:text-xl font-medium"
             >
               Average Vacancy
             </label>
             <input
-              id="averageVacancy"
+              id="average_vacancy"
               type="number"
-              {...register('averageVacancy', { required: true })}
-              placeholder="Enter your amount"
+              {...register('average_vacancy', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter average vacancy amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.averageVacancy && (
+            {errors.average_vacancy && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Maintenance Reserves as % of Income */}
           <div className="self-end">
             <label
-              htmlFor="reservesIncome"
+              htmlFor="monthly_rent"
               className="xs:text-lg md:text-xl font-medium"
             >
               Maintenance Reserves as % of Income
             </label>
             <input
-              id="reservesIncome"
+              id="monthly_rent"
               type="number"
-              {...register('reservesIncome', { required: true })}
-              placeholder="Enter your monthly rent"
+              {...register('monthly_rent', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter maintenance reserves"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.reservesIncome && (
+            {errors.monthly_rent && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Utilities Leave Blank if Tenant Pays */}
           <div className="self-end">
             <label
-              htmlFor="utilitiesLeave"
+              htmlFor="total_unitlities_amount"
               className="xs:text-lg md:text-xl font-medium"
             >
               Utilities Leave Blank if Tenant Pays
             </label>
             <input
-              id="utilitiesLeave"
+              id="total_unitlities_amount"
               type="number"
-              {...register('utilitiesLeave', { required: true })}
-              placeholder="Enter your amount"
+              {...register('total_unitlities_amount', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter utilities amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.utilitiesLeave && (
+            {errors.total_unitlities_amount && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Others Expense Description */}
           <div className="self-end">
             <label
-              htmlFor="otherExpenses"
+              htmlFor="other_expense"
               className="xs:text-lg md:text-xl font-medium"
             >
               Others Expense Description
             </label>
             <input
-              id="otherExpenses"
+              id="other_expense"
               type="number"
-              {...register('otherExpenses', { required: true })}
-              placeholder="Enter your monthly rent"
+              {...register('other_expense', {
+                required: true,
+                min: 0,
+                valueAsNumber: true,
+              })}
+              placeholder="Enter other expenses"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
             {errors.otherExpenses && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
+
           {/* Current Expense Amount */}
           <div className="self-end">
             <label
-              htmlFor="currentExpenseAmount"
+              htmlFor="total_monthly_expense"
               className="xs:text-lg md:text-xl font-medium"
             >
               Current Expense Amount
             </label>
             <input
-              id="currentExpenseAmount"
+              readOnly
+              id="total_monthly_expense"
               type="number"
-              {...register('currentExpenseAmount', { required: true })}
-              placeholder="Enter your monthly rent"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+              {...register('total_monthly_expense')}
+              value={currentExpense}
+              placeholder="Total current expenses"
+              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300 bg-gray-100"
             />
-            {errors.currentExpenseAmount && (
-              <span className="text-red-400">This field is required</span>
-            )}
           </div>
+
           {/* Total Monthly Income */}
           <div className="self-end">
             <label
-              htmlFor="totalMonthlyIncome"
+              htmlFor="total_monthly_income"
               className="xs:text-lg md:text-xl font-medium"
             >
               Total Monthly Income
             </label>
             <input
-              id="totalMonthlyIncome"
+              readOnly
+              id="total_monthly_income"
               type="number"
-              {...register('totalMonthlyIncome', { required: true })}
-              placeholder="Total monthly income"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+              {...register('total_monthly_income')}
+              value={remainingIncome}
+              placeholder="Remaining monthly income"
+              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300 bg-gray-100"
             />
-            {errors.totalMonthlyIncome && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
-          {/* Annual NOI */}
-          <div className="self-end">
-            <label
-              htmlFor="annualNoI"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Annual NOI
-            </label>
-            <input
-              id="annualNoI"
-              type="number"
-              {...register('annualNoI', { required: true })}
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.annualNoI && (
-              <span className="text-red-400">This field is required</span>
-            )}
           </div>
         </div>
+
         {/* Next, Prev btn */}
         <div className="flex flex-col justify-center items-center gap-3 lg:pt-10">
-          {/* <button onClick={e => e.preventDefault()} className="py-2 md:py-3 px-52 rounded-lg text-center font-medium text-lg text-[#025397] border border-[#025397] ">Add others Expenses</button> */}
           <button
             onClick={handlePrevStep}
             className="px-8 md:px-20 cursor-pointer py-2 md:py-3 font-medium rounded-lg border border-primaryBgColor"
@@ -228,9 +307,11 @@ const StepNine = ({ step, setStep, allFormData, setAllFormData }) => {
           </button>
           <button
             type="submit"
-            className="w-full lg:w-auto block lg:inline lg:px-72 py-2 md:py-3 font-medium rounded-lg border bg-primaryBgColor text-white border-primaryBgColor"
+            className={`w-full lg:w-auto block lg:inline lg:px-72 py-2 md:py-3 font-medium rounded-lg border bg-primaryBgColor text-white border-primaryBgColor ${
+              loading ? 'cursor-not-allowed' : ''
+            }`}
           >
-            Save
+            {loading ? 'Loading' : 'Save'}
           </button>
         </div>
       </form>

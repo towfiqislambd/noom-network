@@ -1,6 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { ContactUsFunc, SubscriptionPlanFunc } from './cms.api';
+import {
+  ContactUsFunc,
+  CreatePropertyFunc,
+  SubscriptionPlanFunc,
+} from './cms.api';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const useContactUs = (setLoading) => {
   return useMutation({
@@ -33,6 +38,28 @@ export const useSubscriptionPlan = (setLoading) => {
       setLoading(false);
       window.location.href = data;
       // toast.success('Your subscription plan has been updated');
+    },
+    onError: (err) => {
+      setLoading(false);
+      toast.error(err?.response?.data?.message);
+    },
+  });
+};
+
+// create properties:
+
+export const useCreateProperty = (setLoading) => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationKey: ['create-property'],
+    mutationFn: (payload) => CreatePropertyFunc(payload),
+    onMutate: () => {
+      setLoading(true);
+    },
+    onSuccess: () => {
+      setLoading(false);
+      navigate('/dashboard/myProperty');
+      toast.success('Property created successfully');
     },
     onError: (err) => {
       setLoading(false);

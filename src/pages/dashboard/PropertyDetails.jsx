@@ -2,9 +2,12 @@ import AnnualReturnCharts from '@/components/dashboardComponents/charts/AnnualRe
 import LoanCharts from '@/components/dashboardComponents/charts/LoanCharts';
 import NetWorthCharts from '@/components/dashboardComponents/charts/NetWorthCharts';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const PropertyDetails = () => {
   const [activeBar, setActiveBar] = useState('one');
+  const { id } = useParams();
+  console.log(id);
   return (
     <div>
       <section className="">

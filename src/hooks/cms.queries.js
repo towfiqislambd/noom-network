@@ -4,6 +4,7 @@ import {
   AchievementsFunc,
   FaqsFunc,
   FooterInfoFunc,
+  GetAllPropertiesFunc,
   HomepageDataFunction,
   OurFeathers,
   SocialLinksFunc,
@@ -75,5 +76,13 @@ export const useAchievements = () => {
   return useQuery({
     queryKey: ['achievements'],
     queryFn: AchievementsFunc,
+  });
+};
+
+// get all properties:
+export const useGetAllProperties = () => {
+  return useQuery({
+    queryKey: ['all-properties'],
+    queryFn: GetAllPropertiesFunc,
   });
 };

@@ -61,3 +61,19 @@ export const SubscriptionPlanFunc = async (payload) => {
   const { data } = await axiosSecure.post('/api/stripe-payment', payload);
   return data?.data;
 };
+
+// create property:
+export const CreatePropertyFunc = async (payload) => {
+  const { data } = await axiosSecure.post('/api/porperty/create', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return data?.data;
+};
+
+// get all properties:
+export const GetAllPropertiesFunc = async () => {
+  const { data } = await axiosSecure('/api/porperty/all');
+  return data?.data;
+};

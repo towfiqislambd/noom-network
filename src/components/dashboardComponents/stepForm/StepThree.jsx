@@ -4,9 +4,30 @@ import p3 from '../../../assets/p3.png';
 import uploadLogo from '../../../assets/icons/upload.png';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const StepThree = ({ step, setStep, allFormData, setAllFormData }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      // Check if the file size exceeds 2MB (2MB = 2 * 1024 * 1024 bytes)
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error('File size must be less than 2MB');
+        return; // Don't proceed with the file upload
+      }
+
+      setUploadedFile(file);
+
+      // Create a preview URL
+      const imageUrl = URL.createObjectURL(file);
+      setPreview(imageUrl);
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -15,10 +36,16 @@ const StepThree = ({ step, setStep, allFormData, setAllFormData }) => {
 
   const onSubmit = (data) => {
     if (data) {
-      setAllFormData({ ...allFormData, ...data, uploadedFile });
-      setStep(step + 1);
+      console.log(uploadedFile);
+      if (uploadedFile) {
+        setAllFormData({ ...allFormData, ...data, image: uploadedFile });
+        setStep(step + 1);
+      } else {
+        toast.error('You must upload a photo !');
+      }
     }
   };
+
   const handlePrevStep = (e) => {
     e.preventDefault();
     setStep(step - 1);
@@ -28,19 +55,18 @@ const StepThree = ({ step, setStep, allFormData, setAllFormData }) => {
       <div className="grid 3xl:grid-cols-6 gap-10">
         <div className="3xl:col-span-3">
           <figure>
-            <img src={p1} alt="p1" className="object-cover w-full h-full" />
+            {/* Show uploaded preview if exists */}
+            {preview ? (
+              <img
+                src={preview}
+                alt="Preview"
+                className="object-cover w-full h-full lg:h-[500px] rounded-lg"
+              />
+            ) : (
+              <img src={p1} alt="p1" className="object-cover w-full h-full" />
+            )}
           </figure>
-          <div className="grid grid-rows-[120px] md:grid-rows-[180px] grid-cols-2 md:grid-cols-3 gap-5 mt-4">
-            <img
-              src={p2}
-              alt="p2"
-              className="object-cover w-full h-full rounded-lg"
-            />
-            <img
-              src={p3}
-              alt="p3"
-              className="object-cover w-full h-full rounded-lg"
-            />
+          <div className="w-full flex items-center justify-center gap-5 mt-4">
             {/* Upload Property Photos */}
             <label htmlFor="fileUpload" className="object-cover w-full h-full">
               <div className="bg-[#E6ECFD] object-cover py-7 w-full !h-full lg:p-5 cursor-pointer rounded-lg flex flex-col gap-3 text-center items-center justify-center">
@@ -54,7 +80,8 @@ const StepThree = ({ step, setStep, allFormData, setAllFormData }) => {
               id="fileUpload"
               type="file"
               className="hidden"
-              onChange={(e) => setUploadedFile(e.target.files[0])}
+              accept="image/*"
+              onChange={handleFileChange}
             />
           </div>
         </div>

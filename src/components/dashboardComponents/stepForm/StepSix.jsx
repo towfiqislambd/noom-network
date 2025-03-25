@@ -25,7 +25,7 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
       // Include the current totalPrice in your form data
       const updatedData = {
         ...data,
-        total_cost: totalPrice, // Override with the current totalPrice value
+        total_cost: String(totalPrice), // Override with the current totalPrice value
       };
 
       setAllFormData({ ...allFormData, ...updatedData });

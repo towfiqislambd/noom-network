@@ -1,54 +1,70 @@
-import { useRef, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-const StepEight = ({ step, setStep, allFormData, setAllFormData }) => {
-  const [totalMonthlyIncome, setTotalMonthlyIncome] = useState(0);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+const StepEight = ({
+  step,
+  setStep,
+  allFormData,
+  setAllFormData,
+  setTotalIncome,
+}) => {
+  const { register, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      unit_rent: '',
+      other_income: '',
+    },
+  });
+
+  const gridRef = useRef(null);
+
+  // Watch the input values
+  const unitRent = watch('unit_rent');
+  const otherIncome = watch('other_income');
+
+  // Calculate total monthly income whenever unit_rent or other_income changes
+  useEffect(() => {
+    // Convert to numbers, default to 0 if empty
+    const rent = parseFloat(unitRent) || 0;
+    const income = parseFloat(otherIncome) || 0;
+
+    // Calculate total and set the value
+    const total = rent + income;
+    setValue(
+      'total_monthly_income',
+      total.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
+  }, [unitRent, otherIncome, setValue]);
+
   const onSubmit = (data) => {
     if (data) {
-      setAllFormData({ ...allFormData, ...data });
+      const cleanTotal = parseFloat(
+        data.total_monthly_income.replace(/[^0-9.-]+/g, '')
+      );
+      setTotalIncome(cleanTotal);
+
+      const transformedData = {
+        unit_rent: [data.unit_rent],
+        other_income: [data.other_income],
+        total_monthly_income: data.total_monthly_income,
+      };
+
+      setAllFormData({
+        ...allFormData,
+        ...transformedData,
+      });
       setStep(step + 1);
     }
   };
+
   const handlePrevStep = (e) => {
     e.preventDefault();
     setStep(step - 1);
   };
-
-  // For new input field
-  const gridRef = useRef(null);
-  const addOtherIncome = (e) => {
-    e.preventDefault();
-    if (!gridRef.current) return;
-
-    // Create the new div container
-    const newDiv = document.createElement('div');
-
-    // Create label
-    const label = document.createElement('label');
-    label.className = 'xs:text-lg md:text-xl font-medium';
-    label.innerText = 'Others Income';
-
-    // Create input field
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.placeholder = 'Enter your amount';
-    input.className =
-      'block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300';
-
-    // Append label and input to the new div
-    newDiv.appendChild(label);
-    newDiv.appendChild(input);
-
-    // Append the new div to the grid container
-    gridRef.current.appendChild(newDiv);
-  };
-
-  const [totalUnit, setTotalInput] = useState(3);
 
   return (
     <div className="bg-white rounded-xl shadow p-5 lg:px-[50px] lg:py-[50px] 3xl:px-[180px] 3xl:py-[108px]">
@@ -59,53 +75,47 @@ const StepEight = ({ step, setStep, allFormData, setAllFormData }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-4 md:space-y-7"
       >
-        <div ref={gridRef} className="grid lg:grid-cols-2 gap-5">
-          {/* Unit 1 Monthly Rent */}
-          {Array(totalUnit)
-            .fill()
-            .map((_, index) => (
-              <div key={index} className=''>
-                <div className="self-end">
-                  <label
-                    htmlFor="unitOneMonthlyRent"
-                    className="xs:text-lg md:text-xl font-medium"
-                  >
-                    Unit {index + 1} Monthly Rent
-                  </label>
-                  <input
-                    id="unitOneMonthlyRent"
-                    type="number"
-                    {...register(`monthly_rent_${index + 1}`, {
-                      required: true,
-                    })}
-                    placeholder="Enter your monthly rent"
-                    className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-                  />
-                  {errors.unitOneMonthlyRent && (
-                    <span className="text-red-400">This field is required</span>
-                  )}
-                </div>
-                {/* Others Income */}
-                <div className="self-end">
-                  <label
-                    htmlFor="otherIncome"
-                    className="xs:text-lg md:text-xl font-medium"
-                  >
-                    Others Income
-                  </label>
-                  <input
-                    id="otherIncome"
-                    type="number"
-                    {...register('otherIncome', { required: true })}
-                    placeholder="Car parking"
-                    className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-                  />
-                  {errors.otherIncome && (
-                    <span className="text-red-400">This field is required</span>
-                  )}
-                </div>
-              </div>
-            ))}
+        <div ref={gridRef} className="w-full space-y-4">
+          {/* Unit Monthly Rent and Other Income */}
+          <div className="flex w-full gap-5">
+            <div className="w-full">
+              <label
+                htmlFor={`unit_rent`}
+                className="xs:text-lg md:text-xl font-medium"
+              >
+                Total Monthly Rent
+              </label>
+              <input
+                id={`unit_rent`}
+                type="number"
+                {...register(`unit_rent`, {
+                  required: true,
+                  min: 0,
+                })}
+                placeholder="Enter your monthly rent"
+                className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+              />
+            </div>
+            {/* Others Income */}
+            <div className="w-full">
+              <label
+                htmlFor={`other_income`}
+                className="xs:text-lg md:text-xl font-medium"
+              >
+                Total Others Income
+              </label>
+              <input
+                id={`other_income`}
+                type="number"
+                {...register(`other_income`, {
+                  required: true,
+                  min: 0,
+                })}
+                placeholder="Car parking"
+                className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+              />
+            </div>
+          </div>
 
           {/* Total Monthly Income */}
           <div className="self-end w-full col-span-2">
@@ -115,18 +125,12 @@ const StepEight = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               type="text"
               readOnly
-              value={totalMonthlyIncome}
-              {...register('totalMonthlyIncome', { required: true })}
-              className="block mt-3  w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+              {...register('total_monthly_income', { required: true })}
+              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300 bg-gray-100"
             />
           </div>
         </div>
-        <button
-          onClick={addOtherIncome}
-          className="block py-2 md:py-3 rounded-lg text-center font-medium w-full md:text-lg text-[#025397] border border-[#025397]"
-        >
-          Add Other Income
-        </button>
+
         {/* Next, Prev btn */}
         <div className="flex justify-center items-center gap-3 pt-3 md:mt-10">
           <button
