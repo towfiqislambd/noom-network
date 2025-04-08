@@ -55,7 +55,7 @@ const MyPortfolioPage = () => {
                 <ResponsiveContainer width="100%" height={400}>
                     <AreaChart
                         data={data}
-                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                        margin={{ top: 10, right: 30, left: 50, bottom: 0 }} // increase left margin
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="year" />
