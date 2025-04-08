@@ -19,8 +19,8 @@ const PropertyDetails = () => {
 
   const otherIncome = singlePropertyData?.monthly_incomes[0]?.other_income
     ? parseInt(
-        JSON.parse(singlePropertyData?.monthly_incomes[0]?.other_income)[0]
-      )
+      JSON.parse(singlePropertyData?.monthly_incomes[0]?.other_income)[0]
+    )
     : 0;
 
   // Calculate Total Income

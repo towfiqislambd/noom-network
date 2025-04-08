@@ -19,6 +19,7 @@ import ChangePassword from '@/pages/auth/ChangePassword';
 import { createBrowserRouter } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import PropertyDetails from '@/pages/dashboard/PropertyDetails';
+import MyPortfolioPage from '@/pages/dashboard/MyPortfolioPage';
 
 const router = createBrowserRouter([
   // Main Layout
@@ -130,6 +131,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <PropertyDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/dashboard/property-portfolio',
+        element: (
+          <PrivateRoute>
+            <MyPortfolioPage />
           </PrivateRoute>
         ),
       },

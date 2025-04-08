@@ -87,7 +87,7 @@ const DashboardLayout = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [showSmallSidebar, setShowSmallSidebar] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-   const { mutate: logOutMutate } = useLogOut();
+  const { mutate: logOutMutate } = useLogOut();
 
   // handler:
   const handleLogout = () => {
@@ -99,9 +99,8 @@ const DashboardLayout = () => {
       <div className="min-h-screen max-h-screen flex overflow-hidden">
         {/* Dashboard Sidebar Large */}
         <div
-          className={`${
-            !showSmallSidebar ? 'hidden 2xl:block' : 'hidden'
-          } min-h-screen max-h-screen w-[280px] 3xl:w-[325px] py-10 px-5 border-r shadow bg-white`}
+          className={`${!showSmallSidebar ? 'hidden 2xl:block' : 'hidden'
+            } min-h-screen max-h-screen w-[280px] 3xl:w-[325px] py-10 px-5 border-r shadow bg-white`}
         >
           {/* Logo */}
           <Link to="/">
@@ -128,6 +127,15 @@ const DashboardLayout = () => {
                 >
                   <RiHomeOfficeLine className="text-2xl" />
                   <span>My Property</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="flex hover:scale-[1.02] hover:bg-[#E6ECFD] hover:text-[#025397] transition-all duration-500 rounded-[7px] px-[20px] py-[10px] gap-3 items-center"
+                  to="/dashboard/property-portfolio"
+                >
+                  <RiHomeOfficeLine className="text-2xl" />
+                  <span>My Portfolio</span>
                 </NavLink>
               </li>
               <li>
@@ -165,9 +173,8 @@ const DashboardLayout = () => {
         </div>
         {/* Dashboard Sidebar Small */}
         <div
-          className={`${
-            showSmallSidebar ? '' : '2xl:hidden'
-          } hidden xl:block min-h-screen max-h-screen w-[80px] py-10 px-5 border-r shadow bg-white`}
+          className={`${showSmallSidebar ? '' : '2xl:hidden'
+            } hidden xl:block min-h-screen max-h-screen w-[80px] py-10 px-5 border-r shadow bg-white`}
         >
           {/* Logo */}
           <Link to="/">
@@ -243,11 +250,10 @@ const DashboardLayout = () => {
 
         {/* Right part */}
         <div
-          className={`${
-            showSmallSidebar
-              ? 'w-[calc(100%-80px)]'
-              : 'w-full 2xl:w-[calc(100%-280px)] 3xl:w-[calc(100%-325px)]'
-          } min-h- max-h-screen relative`}
+          className={`${showSmallSidebar
+            ? 'w-[calc(100%-80px)]'
+            : 'w-full 2xl:w-[calc(100%-280px)] 3xl:w-[calc(100%-325px)]'
+            } min-h- max-h-screen relative`}
         >
           {/* Dashboard Header */}
           <div className="grid p-3 md:py-5 md:px-5 xl:px-10 md:grid-cols-2 xl:grid-cols-1 md:gap-5 items-center">
@@ -318,9 +324,8 @@ const DashboardLayout = () => {
           >
             {/* Notification */}
             <div
-              className={`${
-                showNotification ? 'block' : 'hidden'
-              } fixed bg-slate-50 top-14 md:top-20 right-3 md:right-5 xl:right-40 max-h-[420px] w-[280px] md:w-[320px] p-5 rounded-lg shadow-2xl overflow-y-scroll custom-scrollbar z-[999]`}
+              className={`${showNotification ? 'block' : 'hidden'
+                } fixed bg-slate-50 top-14 md:top-20 right-3 md:right-5 xl:right-40 max-h-[420px] w-[280px] md:w-[320px] p-5 rounded-lg shadow-2xl overflow-y-scroll custom-scrollbar z-[999]`}
             >
               <div className="flex justify-between mb-5">
                 <h3 className="text-xl font-semibold text-headingTextColor">
