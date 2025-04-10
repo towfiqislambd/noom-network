@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
 
+
 const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
 
   const onSubmit = (data) => {
     if (data) {
@@ -86,6 +88,18 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
             </select>
             {errors.goals && <span className="text-red-400">Select one</span>}
           </div>
+          <div className="self-end">
+            <label
+              htmlFor="goals"
+              className="xs:text-lg md:text-xl font-medium"
+            >
+              Appreciation rate
+            </label>
+            <input type="number"
+              {...register('appreciation_rate', { required: true })}
+              placeholder="Enter Amount" className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300" />
+            {errors.appreciation_rate && <span className="text-red-400">Appreciation rate is required </span>}
+          </div>
         </div>
         {/* Next, Prev btn */}
         <div className="flex justify-center items-center gap-3 pt-6 md:mt-10">
@@ -107,4 +121,8 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
   );
 };
 
+
 export default StepTwo;
+
+
+
