@@ -80,11 +80,11 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
               {...register('year', { required: true })}
             >
-              <option value="4 year">4 year</option>
-              <option value="8 year">8 year</option>
-              <option value="10 year">10 year</option>
-              <option value="20 year">20 year</option>
-              <option value="30 year">30 year</option>
+              <option value="4">4 year</option>
+              <option value="8">8 year</option>
+              <option value="10">10 year</option>
+              <option value="20">20 year</option>
+              <option value="30">30 year</option>
             </select>
             {errors.goals && <span className="text-red-400">Select one</span>}
           </div>
