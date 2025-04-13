@@ -7,40 +7,33 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-} from 'recharts';
-import { curveCardinal } from 'd3-shape';
-import { useGetSingleProperty } from '@/hooks/cms.queries';
-import { useMemo} from 'react';
-
+} from "recharts";
+import { curveCardinal } from "d3-shape";
+import { useGetSingleProperty } from "@/hooks/cms.queries";
+import { useMemo } from "react";
 
 const NetWorthCharts = ({ id }) => {
   const { data: singlePropertyData } = useGetSingleProperty(id);
 
-
   const parsedData = useMemo(() => {
     if (!singlePropertyData?.graph_data) return [];
     try {
-      return JSON.parse(singlePropertyData.graph_data);
+      return singlePropertyData?.graph_data;
     } catch (e) {
       console.error("Error parsing graph_data:", e);
       return [];
     }
   }, [singlePropertyData]);
 
-
   const updatedData = useMemo(() => {
     return parsedData.map((item) => ({
       ...item,
-      Value: item.Value ,
-      Dept: item.Dept ,
-      NetWorth: (item.Value - item.Dept) ,
+      Value: item.Value,
+      Debt: item.Dept,
+      NetWorth: item.Value - item.Dept,
     }));
   }, [parsedData]);
 
-
-
-
-   
   //  const data = JSON.parse(singlePropertyData?.graph_data);
   // const data = [
   //   { year: 1, Value: 40000, Dept: 30000, NetWorth: 10000 },
@@ -75,13 +68,9 @@ const NetWorthCharts = ({ id }) => {
   //   { year: 30, Value: 382000, Dept: 0, NetWorth: 381000 },
   // ];
 
-
   // Multiply the values by the provided id to make the chart dynamic
- 
-
 
   const cardinal = curveCardinal.tension(0.2);
-
 
   return (
     <ResponsiveContainer width="100%" height={400}>
@@ -90,7 +79,7 @@ const NetWorthCharts = ({ id }) => {
         margin={{ top: 10, right: 30, left: 50, bottom: 0 }} // increase left margin
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" domain={['0', 'auto']} />
+        <XAxis dataKey="year" domain={["0", "auto"]} />
         <YAxis />
         <Tooltip />
         <Legend verticalAlign="bottom" height={36} />
@@ -105,7 +94,7 @@ const NetWorthCharts = ({ id }) => {
         {/* Dept */}
         <Area
           type={cardinal}
-          dataKey="Dept"
+          dataKey="Debt"
           stroke="#fea11f"
           fill="rgba(254, 161, 31, 0.5)"
           fillOpacity={0.5}
@@ -123,7 +112,4 @@ const NetWorthCharts = ({ id }) => {
   );
 };
 
-
 export default NetWorthCharts;
-
-

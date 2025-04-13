@@ -1,26 +1,23 @@
-import LoanCharts from '@/components/dashboardComponents/charts/LoanCharts';
-import NetWorthCharts from '@/components/dashboardComponents/charts/NetWorthCharts';
-import PortfolioForecastingComponent from '@/components/dashboardComponents/PortfolioForecastingComponent';
-import { useGetSingleProperty } from '@/hooks/cms.queries';
+import LoanCharts from "@/components/dashboardComponents/charts/LoanCharts";
+import NetWorthCharts from "@/components/dashboardComponents/charts/NetWorthCharts";
+import PortfolioForecastingComponent from "@/components/dashboardComponents/PortfolioForecastingComponent";
+import { useGetSingleProperty } from "@/hooks/cms.queries";
 
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const PropertyDetails = () => {
   const { id } = useParams();
 
   const { data: singlePropertyData } = useGetSingleProperty(id);
-  console.log(singlePropertyData);
 
   // Extract and parse the income and expenses from singlePropertyData
 
   const unitRent = singlePropertyData?.monthly_incomes[0]?.unit_rent
-    ? parseInt(JSON.parse(singlePropertyData?.monthly_incomes[0]?.unit_rent)[0])
+    ? parseInt(singlePropertyData?.monthly_incomes[0]?.unit_rent[0])
     : 0;
 
   const otherIncome = singlePropertyData?.monthly_incomes[0]?.other_income
-    ? parseInt(
-      JSON.parse(singlePropertyData?.monthly_incomes[0]?.other_income)[0]
-    )
+    ? parseInt(singlePropertyData?.monthly_incomes[0]?.other_income[0])
     : 0;
 
   // Calculate Total Income
@@ -28,10 +25,12 @@ const PropertyDetails = () => {
 
   // Extract expenses and default to 0 if missing
   const monthlyTax = singlePropertyData?.monthly_expenses[0]?.monthly_tax || 0;
+
   const monthlyInsurance =
     singlePropertyData?.monthly_expenses[0]?.monthly_insurance || 0;
   const propertyManagement =
     singlePropertyData?.monthly_expenses[0]?.property_managment || 0;
+
   const totalUtilities =
     singlePropertyData?.monthly_expenses[0]?.total_unitlities_amount || 0;
 
@@ -41,8 +40,6 @@ const PropertyDetails = () => {
 
   // Calculate Net Income (Income - Expenses)
   const netIncome = incomeTotal - expenseTotal;
-
-  console.log('Net Income: ', netIncome);
 
   return (
     <div>
@@ -72,8 +69,8 @@ const PropertyDetails = () => {
                     {singlePropertyData?.monthly_incomes[0]?.unit_rent &&
                       parseInt(
                         JSON.parse(
-                          singlePropertyData?.monthly_incomes[0]?.unit_rent
-                        )[0]
+                          singlePropertyData?.monthly_incomes[0]?.unit_rent[0]
+                        )
                       )}
                   </span>
                 </p>
@@ -86,8 +83,9 @@ const PropertyDetails = () => {
                     {singlePropertyData?.monthly_incomes[0]?.other_income &&
                       parseInt(
                         JSON.parse(
-                          singlePropertyData?.monthly_incomes[0]?.other_income
-                        )[0]
+                          singlePropertyData?.monthly_incomes[0]
+                            ?.other_income[0]
+                        )
                       )}
                   </span>
                 </p>
