@@ -5,6 +5,7 @@ import {
   FaqsFunc,
   FooterInfoFunc,
   GetAllPropertiesFunc,
+  getNotificationFunction,
   GetSinglePropertyFunc,
   HomepageDataFunction,
   OurFeathers,
@@ -95,3 +96,13 @@ export const useGetSingleProperty = (id) => {
     queryFn: () => GetSinglePropertyFunc(id),
   });
 };
+
+
+// notification
+
+export const useGetNotification = ()=>{
+  return useQuery({
+    queryKey:["notification"],
+    queryFn: getNotificationFunction,
+  })
+}

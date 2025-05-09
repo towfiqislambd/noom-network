@@ -83,3 +83,12 @@ export const GetSinglePropertyFunc = async (id) => {
   const { data } = await axiosSecure(`/api/porperty/single/${id}`);
   return data?.data?.porperty[0];
 };
+
+
+
+// notification
+
+export const getNotificationFunction = async () => {
+  const {data} = await axiosSecure(`/api/notification/all`);
+  return data;
+}

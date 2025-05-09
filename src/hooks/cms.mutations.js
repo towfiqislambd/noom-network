@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   ContactUsFunc,
   CreatePropertyFunc,
@@ -27,6 +27,7 @@ export const useContactUs = (setLoading) => {
 
 // plan subscription::
 export const useSubscriptionPlan = (setLoading) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['subscription-plan'],
     mutationFn: (payload) => SubscriptionPlanFunc(payload),
@@ -34,7 +35,7 @@ export const useSubscriptionPlan = (setLoading) => {
       setLoading(true);
     },
     onSuccess: (data) => {
-      console.log(data);
+       queryClient.invalidateQueries(["notification"]);
       setLoading(false);
       window.location.href = data;
       // toast.success('Your subscription plan has been updated');
@@ -49,6 +50,7 @@ export const useSubscriptionPlan = (setLoading) => {
 // create properties:
 export const useCreateProperty = (setLoading) => {
   const navigate = useNavigate();
+   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['create-property'],
     mutationFn: (payload) => CreatePropertyFunc(payload),
@@ -56,6 +58,7 @@ export const useCreateProperty = (setLoading) => {
       setLoading(true);
     },
     onSuccess: () => {
+       queryClient.invalidateQueries(["notification"]);
       setLoading(false);
       navigate('/dashboard/myProperty');
       toast.success('Property created successfully');

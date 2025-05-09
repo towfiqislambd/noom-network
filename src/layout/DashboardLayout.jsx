@@ -19,69 +19,71 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
 import useAuth from '@/hooks/useAuth';
 import { useLogOut } from '@/hooks/auth.hook';
+import { useGetNotification } from '@/hooks/cms.queries';
+import moment from 'moment';
 
-const notificationData = [
-  {
-    id: 1,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '2 second ago',
-  },
-  {
-    id: 2,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '2 days ago',
-  },
-  {
-    id: 3,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '1/11/2025',
-  },
-  {
-    id: 4,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '5 second ago',
-  },
-  {
-    id: 5,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '5 hours ago',
-  },
-  {
-    id: 6,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '2 second ago',
-  },
-  {
-    id: 7,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '3 days ago',
-  },
-  {
-    id: 8,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '4 second ago',
-  },
-  {
-    id: 9,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '2 minutes ago',
-  },
-  {
-    id: 10,
-    userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
-    title: 'New Property Alert!',
-    duration: '8 second ago',
-  },
-];
+// const notificationData = [
+//   {
+//     id: 1,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '2 second ago',
+//   },
+//   {
+//     id: 2,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '2 days ago',
+//   },
+//   {
+//     id: 3,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '1/11/2025',
+//   },
+//   {
+//     id: 4,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '5 second ago',
+//   },
+//   {
+//     id: 5,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '5 hours ago',
+//   },
+//   {
+//     id: 6,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '2 second ago',
+//   },
+//   {
+//     id: 7,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '3 days ago',
+//   },
+//   {
+//     id: 8,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '4 second ago',
+//   },
+//   {
+//     id: 9,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '2 minutes ago',
+//   },
+//   {
+//     id: 10,
+//     userProfile: 'https://i.ibb.co.com/BH922QRG/profile.jpg',
+//     title: 'New Property Alert!',
+//     duration: '8 second ago',
+//   },
+// ];
 
 const DashboardLayout = () => {
   const { user } = useAuth();
@@ -90,6 +92,13 @@ const DashboardLayout = () => {
   const [showSmallSidebar, setShowSmallSidebar] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const { mutate: logOutMutate } = useLogOut();
+
+  const {data:notificationData} = useGetNotification();
+
+
+  console.log(notificationData?.data);
+  
+
 
   // handler:
   const handleLogout = () => {
@@ -337,26 +346,32 @@ const DashboardLayout = () => {
                   <RxCross2 className="text-2xl" />
                 </button>
               </div>
-              {notificationData.map((notification) => (
-                <div
-                  key={notification.id}
-                  className="flex items-center mb-5 gap-3"
-                >
-                  <figure className="w-9 h-9 rounded-full">
-                    <img
-                      src={notification.userProfile}
-                      alt="profile"
-                      className="w-full h-full rounded-full object-cover"
-                    />
-                  </figure>
-                  <div className="">
-                    <p className="font-medium">{notification.title}</p>
-                    <span className="text-gray-400 text-sm">
-                      {notification.duration}
-                    </span>
-                  </div>
-                </div>
-              ))}
+              {notificationData?.data?.length > 0 ? notificationData?.data?.map((notification) => (
+               <div
+  key={notification.id}
+  className="flex items-center mb-5 gap-3"
+>
+ <figure className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+  <img
+    src={
+      notification?.user_avatar
+        ? `${import.meta.env.VITE_SITE_URL}/${notification.user_avatar}`
+        : profileImg
+    }
+    alt="profile"
+    className="w-10 h-10 object-cover rounded-full"
+  />
+</figure>
+  <div>
+    <p className="font-medium text-sm">
+      {notification?.data?.message}
+    </p>
+    <span className="text-gray-400 text-sm">
+      {moment(notification?.created_at).fromNow()}
+    </span>
+  </div>
+</div>
+              )) : <p className='text-center '>{notificationData?.message}</p>}
             </div>
 
             {/* Outlet */}
