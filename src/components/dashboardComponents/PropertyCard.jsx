@@ -8,13 +8,13 @@ const PropertyCard = ({ data }) => {
       to={`/dashboard/property-details/${data?.id}`}
       className="p-4 rounded-lg overflow-hidden hover:scale-[1.05] transition-transform duration-500 bg-[#E6ECFD]"
     >
-      <figure>
+      <figure className='h-[350px]'>
         <img
           src={`${import.meta.env.VITE_SITE_URL}/${
             data?.porperty_image[0]?.image
           }`}
           alt="property"
-          className="object-cover w-full h-full"
+          className="object-cover w-full h-full rounded-md"
         />
       </figure>
       <span className="font-semibold text-xl pb-1 inline-block pt-5">

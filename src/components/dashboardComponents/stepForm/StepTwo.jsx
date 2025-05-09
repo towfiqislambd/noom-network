@@ -1,5 +1,4 @@
-import { useForm } from 'react-hook-form';
-
+import { useForm } from "react-hook-form";
 
 const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
   const {
@@ -7,7 +6,6 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
 
   const onSubmit = (data) => {
     if (data) {
@@ -31,12 +29,12 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
               htmlFor="cashFlow"
               className="xs:text-lg md:text-xl font-medium"
             >
-              What is your monthly cash flow going?
+              What is your cash flow goal?
             </label>
             <input
               id="monthly_cash_flow"
               type="number"
-              {...register('monthly_cash_flow', { required: true })}
+              {...register("monthly_cash_flow", { required: true })}
               placeholder="Enter Amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -57,7 +55,7 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="real_estate_gole"
               type="number"
-              {...register('real_estate_gole', { required: true })}
+              {...register("real_estate_gole", { required: true })}
               placeholder="Enter Amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -78,13 +76,13 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
             </label>
             <select
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-              {...register('year', { required: true })}
+              {...register("year", { required: true })}
             >
-              <option value="4 year">4 year</option>
-              <option value="8 year">8 year</option>
-              <option value="10 year">10 year</option>
-              <option value="20 year">20 year</option>
-              <option value="30 year">30 year</option>
+              <option value="4">4 year</option>
+              <option value="8">8 year</option>
+              <option value="10">10 year</option>
+              <option value="20">20 year</option>
+              <option value="30">30 year</option>
             </select>
             {errors.goals && <span className="text-red-400">Select one</span>}
           </div>
@@ -95,10 +93,17 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
             >
               Appreciation rate
             </label>
-            <input type="number"
-              {...register('appreciation_rate', { required: true })}
-              placeholder="Enter Amount" className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300" />
-            {errors.appreciation_rate && <span className="text-red-400">Appreciation rate is required </span>}
+            <input
+              type="number"
+              {...register("appreciation_rate", { required: true })}
+              placeholder="Enter Amount"
+              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+            />
+            {errors.appreciation_rate && (
+              <span className="text-red-400">
+                Appreciation rate is required{" "}
+              </span>
+            )}
           </div>
         </div>
         {/* Next, Prev btn */}
@@ -121,8 +126,4 @@ const StepTwo = ({ step, setStep, allFormData, setAllFormData }) => {
   );
 };
 
-
 export default StepTwo;
-
-
-

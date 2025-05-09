@@ -12,13 +12,14 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
   // Watch the input values to update total automatically
   const purchasePrice = watch('purchase_price') || 0;
   const repairsAndImprovements = watch('repairs_and_improvemants') || 0;
-
+  const totalClosingCost = watch('total_closing_cost') || 0;
   // Calculate total whenever inputs change
   useEffect(() => {
     const purchaseVal = parseFloat(purchasePrice) || 0;
     const repairsVal = parseFloat(repairsAndImprovements) || 0;
-    setTotalPrice(purchaseVal + repairsVal);
-  }, [purchasePrice, repairsAndImprovements]);
+    const closingCost = parseFloat(totalClosingCost) || 0;
+    setTotalPrice(purchaseVal + repairsVal + closingCost);
+  }, [purchasePrice, repairsAndImprovements,totalClosingCost]);
 
   const onSubmit = (data) => {
     if (data) {

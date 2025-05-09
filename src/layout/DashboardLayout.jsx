@@ -12,6 +12,8 @@ import { LuSettings } from 'react-icons/lu';
 import { FiLogOut } from 'react-icons/fi';
 import { RiHomeOfficeLine } from 'react-icons/ri';
 import { RiMoneyPoundCircleLine } from 'react-icons/ri';
+import { FaChartLine } from "react-icons/fa6";
+
 import { FaBars, FaChartBar } from 'react-icons/fa6';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
@@ -134,7 +136,7 @@ const DashboardLayout = () => {
                   className="flex hover:scale-[1.02] hover:bg-[#E6ECFD] hover:text-[#025397] transition-all duration-500 rounded-[7px] px-[20px] py-[10px] gap-3 items-center"
                   to="/dashboard/property-portfolio"
                 >
-                  <RiHomeOfficeLine className="text-2xl" />
+                  <FaChartLine className="text-2xl" />
                   <span>My Portfolio</span>
                 </NavLink>
               </li>
