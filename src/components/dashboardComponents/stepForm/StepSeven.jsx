@@ -33,7 +33,7 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               htmlFor="curruent_lone_balance"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Current Loan Balance
+              Current Loan Amount
             </label>
             <input
               id="curruent_lone_balance"
@@ -44,6 +44,27 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
             {errors.curruent_lone_balance && (
+              <span className="text-red-400">This field is required</span>
+            )}
+          </div>
+          {/* Loan Term */}
+          <div className="self-end">
+            <label
+              htmlFor="lone_term"
+              className="xs:text-lg md:text-xl font-medium"
+            >
+              Total Loan Amount
+            </label>
+            <input
+              id="lone_term"
+              type="number"
+                step="any"
+              {...register('lone_term', { required: true, valueAsNumber: true })}
+              placeholder="Enter repair amount"
+                
+              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+            />
+            {errors.lone_term && (
               <span className="text-red-400">This field is required</span>
             )}
           </div>
@@ -67,10 +88,7 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               <span className="text-red-400">This field is required</span>
             )}
           </div>
-        </div>
-        <div className="grid lg:grid-cols-3 gap-y-4 md:gap-y-5 gap-x-8">
-          {/* Loan Organization Date */}
-          <div className="self-end">
+            <div className="self-end">
             <label
               htmlFor="lone_organization_date"
               className="xs:text-lg md:text-xl font-medium"
@@ -90,27 +108,30 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               <span className="text-red-400">This field is required</span>
             )}
           </div>
-          {/* Loan Term */}
+        </div>
+        <div className="grid lg:grid-cols-2 gap-y-4 md:gap-y-5 gap-x-8">
+          {/* Loan Organization Date
           <div className="self-end">
             <label
-              htmlFor="lone_term"
+              htmlFor="lone_organization_date"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Loan Term
+          
+              Loan End Date
             </label>
             <input
-              id="lone_term"
-              type="number"
-                step="any"
-              {...register('lone_term', { required: true, valueAsNumber: true })}
-              placeholder="Enter repair amount"
-                
+              id="lone_organization_date"
+              type="date"
+             
+              {...register('lone_organization_date', { required: true,  })}
+              placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
-            {errors.lone_term && (
+            {errors.lone_organization_date && (
               <span className="text-red-400">This field is required</span>
             )}
-          </div>
+          </div> */}
+       
           {/* Interest rate */}
           <div className="self-end">
             <label
