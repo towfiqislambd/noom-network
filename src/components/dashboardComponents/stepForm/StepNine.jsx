@@ -100,6 +100,7 @@ const StepNine = ({
             </label>
             <input
               id="monthly_tax"
+              step="any"
               type="number"
               {...register('monthly_tax', {
                 required: true,
@@ -125,6 +126,7 @@ const StepNine = ({
             <input
               id="property_managment"
               type="number"
+                 step="any"
               {...register('property_managment', {
                 required: true,
                 min: 0,
@@ -149,6 +151,7 @@ const StepNine = ({
             <input
               id="monthly_insurance"
               type="number"
+                 step="any"
               {...register('monthly_insurance', {
                 required: true,
                 min: 0,
@@ -173,6 +176,7 @@ const StepNine = ({
             <input
               id="average_vacancy"
               type="number"
+                 step="any"
               {...register('average_vacancy', {
                 required: true,
                 min: 0,
@@ -197,6 +201,7 @@ const StepNine = ({
             <input
               id="monthly_rent"
               type="number"
+                 step="any"
               {...register('monthly_rent', {
                 required: true,
                 min: 0,
@@ -216,11 +221,12 @@ const StepNine = ({
               htmlFor="total_unitlities_amount"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Utilities Leave Blank if Tenant Pays
+              Utilities Expense
             </label>
             <input
               id="total_unitlities_amount"
               type="number"
+                 step="any"
               {...register('total_unitlities_amount', {
                 required: true,
                 min: 0,
@@ -240,11 +246,12 @@ const StepNine = ({
               htmlFor="other_expense"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Others Expense Description
+              Other Expense
             </label>
             <input
               id="other_expense"
               type="number"
+                 step="any"
               {...register('other_expense', {
                 required: true,
                 min: 0,
@@ -270,7 +277,8 @@ const StepNine = ({
               readOnly
               id="total_monthly_expense"
               type="number"
-              {...register('total_monthly_expense')}
+                step="any"
+              {...register('total_monthly_expense',{valueAsNumber: true})}
               value={currentExpense}
               placeholder="Total current expenses"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300 bg-gray-100"
@@ -289,7 +297,8 @@ const StepNine = ({
               readOnly
               id="total_monthly_income"
               type="number"
-              {...register('total_monthly_income')}
+                 step="any"
+              {...register('total_monthly_income',{valueAsNumber: true})}
               value={remainingIncome}
               placeholder="Remaining monthly income"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300 bg-gray-100"

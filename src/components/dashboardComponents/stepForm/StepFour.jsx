@@ -76,7 +76,8 @@ const StepFour = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="numberOfBedrooms"
               type="number"
-              {...register('numberOfBedrooms', { required: true })}
+               step="any"
+              {...register('numberOfBedrooms', { required: true, valueAsNumber: true })}
               placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -95,7 +96,8 @@ const StepFour = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="totalNumberOfBedrooms"
               type="number"
-              {...register('totalNumberOfBedrooms', { required: true })}
+                 step="any"
+              {...register('totalNumberOfBedrooms', { required: true ,valueAsNumber: true})}
               placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />

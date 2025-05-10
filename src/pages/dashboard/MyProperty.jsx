@@ -23,6 +23,9 @@ const MyProperty = () => {
           <PropertyCard key={data.id} data={data?.porperty[0]}></PropertyCard>
         ))}
       </div>
+      {
+        allProperties?.length === 0 && <p className='text-center text-gray-400'>No Property Added</p>
+      }
     </div>
   );
 };

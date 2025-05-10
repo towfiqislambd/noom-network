@@ -1,11 +1,26 @@
 import { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
-const LoanCharts = ({ id }) => {
+const LoanCharts = ({ id ,singlePropertyData}) => {
   // Dynamic data based on `id`
+  // const data = [
+  //   { name: 'Paid', value: 45.5 * id }, // Multiply by id to make it dynamic
+  //   { name: 'Remaining', value: 55.5 * id },
+  // ];
+
+  const rawdata = singlePropertyData?.lone_information[0];
+
+  const paidLoanAsPercentage = (((rawdata?.lone_term - rawdata?.curruent_lone_balance)/rawdata?.lone_term) * 100).toFixed(2);
+
+  console.log(paidLoanAsPercentage);
+  
+const remainingAsPercentage = (rawdata?.curruent_lone_balance /rawdata?.lone_term ) * 100;
+
+ console.log(remainingAsPercentage);
+ 
   const data = [
-    { name: 'Paid', value: 45.5 * id }, // Multiply by id to make it dynamic
-    { name: 'Remaining', value: 55.5 * id },
+    { name: 'Paid', value: +paidLoanAsPercentage }, // Multiply by id to make it dynamic
+    { name: 'Remaining', value: +remainingAsPercentage },
   ];
 
   const COLORS = ['#025397', '#ddd'];
@@ -22,8 +37,8 @@ const LoanCharts = ({ id }) => {
   const outerRadius = isSmall ? 110 : 160;
   const textY = isSmall ? 120 : 180;
 
-  const totalValue = data[0].value + data[1].value; // Total value of Paid and Remaining
-  const paidPercentage = ((data[0].value / totalValue) * 100).toFixed(2); // Calculate percentage for Paid
+  // const totalValue = data[0].value + data[1].value; // Total value of Paid and Remaining
+  // const paidPercentage = ((data[0].value / totalValue) * 100).toFixed(2); // Calculate percentage for Paid
 
   return (
     <div
@@ -59,7 +74,7 @@ const LoanCharts = ({ id }) => {
           fontWeight="bold"
           fill="#025397"
         >
-          {paidPercentage}%
+          {paidLoanAsPercentage}%
         </text>
         <text
           x={chartSize / 2}

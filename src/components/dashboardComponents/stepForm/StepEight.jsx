@@ -87,10 +87,12 @@ const StepEight = ({
               </label>
               <input
                 id={`unit_rent`}
+                    step="any"
                 type="number"
                 {...register(`unit_rent`, {
                   required: true,
                   min: 0,
+                  valueAsNumber: true
                 })}
                 placeholder="Enter your monthly rent"
                 className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
@@ -106,10 +108,12 @@ const StepEight = ({
               </label>
               <input
                 id={`other_income`}
+                  step="any"
                 type="number"
                 {...register(`other_income`, {
                   required: true,
                   min: 0,
+                  valueAsNumber: true
                 })}
                 placeholder="Car parking"
                 className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
