@@ -69,7 +69,7 @@ const PropertyDetails = () => {
                     {singlePropertyData?.monthly_incomes[0]?.unit_rent &&
                       parseInt(
                         JSON.parse(
-                          singlePropertyData?.monthly_incomes[0]?.unit_rent[0]
+                           singlePropertyData?.monthly_incomes[0]?.unit_rent[0]
                         )
                       )}
                   </span>
@@ -177,7 +177,7 @@ const PropertyDetails = () => {
             <p className="text-[#4F4F4F]">
               This is a summary of the loan for this property
             </p>
-            <LoanCharts id={id} />
+            <LoanCharts singlePropertyData={singlePropertyData} id={id} />
             <div className="grid md:grid-cols-2 gap-5 md:gap-10 mt-10">
               {/* Left Content */}
               <div className="space-y-5 md:space-y-8">
@@ -189,12 +189,12 @@ const PropertyDetails = () => {
                         ?.curruent_lone_balance
                     }
                   </p>
-                  <p className="text-primaryTextColor">Initial Loan Balance </p>
+                  <p className="text-primaryTextColor">Current Loan Amount</p>
                 </div>
                 <div className="">
-                  <p className="text-primaryTextColor">Total Years</p>
+                  <p className="text-primaryTextColor">Total Loan Amount</p>
                   <p className="text-headingTextColor font-medium text-lg">
-                    {singlePropertyData?.lone_information[0]?.lone_term} Years
+                    ${singlePropertyData?.lone_information[0]?.lone_term} 
                   </p>
                 </div>
                 <div className="">

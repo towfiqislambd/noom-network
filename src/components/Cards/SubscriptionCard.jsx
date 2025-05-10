@@ -24,8 +24,8 @@ const SubscriptionCard = ({ data, light }) => {
       if (data?.price == 5) {
         const updatedData = {
           stripe_price_id: data?.stripe_price_id,
-          success_url: `${window.location.origin}`,
-          cancel_url: `${window.location.origin}`,
+          success_url: `${window.location.origin}/dashboard/myPortfolio`,
+          cancel_url: `${window.location.origin}/dashboard/subscription`,
           type: data?.type,
         };
         if (user?.type == 'monthly') {
