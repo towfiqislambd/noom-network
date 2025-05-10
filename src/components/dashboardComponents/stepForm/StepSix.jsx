@@ -52,12 +52,13 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
               htmlFor="purchase_price"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Purchase Prices
+              Purchase Price
             </label>
             <input
               id="purchase_price"
               type="number"
-              {...register('purchase_price', { required: true })}
+                  step="any"
+              {...register('purchase_price', { required: true,valueAsNumber: true})}
               placeholder="Enter purchase prices"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -95,7 +96,8 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="repairs_and_improvemants"
               type="number"
-              {...register('repairs_and_improvemants', { required: true })}
+                  step="any"
+              {...register('repairs_and_improvemants', { required: true,valueAsNumber: true })}
               placeholder="Enter repair amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -114,7 +116,8 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="current_value"
               type="number"
-              {...register('current_value', { required: true })}
+                 step="any"
+              {...register('current_value', { required: true,valueAsNumber: true })}
               placeholder="Enter property current price"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -133,7 +136,8 @@ const StepSix = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="total_closing_cost"
               type="number"
-              {...register('total_closing_cost', { required: true })}
+                   step="any"
+              {...register('total_closing_cost', { required: true,valueAsNumber: true })}
               placeholder="Enter repair amount"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />

@@ -61,7 +61,8 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="units"
               type="number"
-              {...register('units', { required: true })}
+               step="any"
+              {...register('units', { required: true ,valueAsNumber: true})}
               placeholder="Enter number of units"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -69,24 +70,28 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
               <span className="text-red-400">This field is required</span>
             )}
           </div>
-          <div className="self-end">
-            <label
-              htmlFor="bedrooms"
-              className="xs:text-lg md:text-xl font-medium"
-            >
-              Total Number Bedrooms
-            </label>
-            <input
-              id="bedrooms"
-              type="number"
-              {...register('bedrooms', { required: true })}
-              placeholder="Enter number of bedrooms"
-              className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
-            />
-            {errors.bedrooms && (
-              <span className="text-red-400">This field is required</span>
-            )}
-          </div>
+         <div className="self-end">
+  <label
+    htmlFor="bedrooms"
+    className="xs:text-lg md:text-xl font-medium"
+  >
+    Total Number Bedrooms
+  </label>
+  <input
+    id="bedrooms"
+    type="number"
+       step="any" // Allow decimal values
+    {...register('bedrooms', {
+      required: true,
+      valueAsNumber: true, // Ensures it's treated as a number
+    })}
+    placeholder="Enter number of bedrooms"
+    className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
+  />
+  {errors.bedrooms && (
+    <span className="text-red-400">This field is required</span>
+  )}
+</div>
           {/* Total Number Bathrooms (including partial) */}
           <div className="self-end">
             <label
@@ -98,8 +103,10 @@ const StepFive = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="bathrooms"
               type="number"
-              {...register('bathrooms', { required: true })}
+                 step="any"
+              {...register('bathrooms', { required: true ,  valueAsNumber: true })}
               placeholder="Enter number of bedrooms"
+             
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
             {errors.bathrooms && (

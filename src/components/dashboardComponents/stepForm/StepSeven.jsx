@@ -38,7 +38,8 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="curruent_lone_balance"
               type="number"
-              {...register('curruent_lone_balance', { required: true })}
+                 step="any"
+              {...register('curruent_lone_balance', { required: true,valueAsNumber: true })}
               placeholder="Enter purchase price"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -52,7 +53,8 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               htmlFor="instead_of_date"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Amount Instead of a date
+              {/* Amount Instead of a date */}
+              Loan Start Date
             </label>
             <input
               id="instead_of_date"
@@ -73,12 +75,14 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
               htmlFor="lone_organization_date"
               className="xs:text-lg md:text-xl font-medium"
             >
-              Loan Organization Date
+              {/* Loan Organization Date */}
+              Loan End Date
             </label>
             <input
               id="lone_organization_date"
               type="date"
-              {...register('lone_organization_date', { required: true })}
+             
+              {...register('lone_organization_date', { required: true,  })}
               placeholder="Enter number of bedrooms"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
@@ -97,8 +101,10 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="lone_term"
               type="number"
-              {...register('lone_term', { required: true })}
+                step="any"
+              {...register('lone_term', { required: true, valueAsNumber: true })}
               placeholder="Enter repair amount"
+                
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
             {errors.lone_term && (
@@ -116,7 +122,8 @@ const StepSeven = ({ step, setStep, allFormData, setAllFormData }) => {
             <input
               id="insterest_rate"
               type="number"
-              {...register('insterest_rate', { required: true })}
+                 step="any"
+              {...register('insterest_rate', { required: true ,valueAsNumber: true})}
               placeholder="Enter property current price"
               className="block mt-3 w-full px-2 xs:px-3 md:px-4 mb-2 py-1 xs:py-2 md:py-3 border rounded md:text-lg border-gray-300"
             />
