@@ -1,8 +1,6 @@
-import { useAchievements } from '@/hooks/cms.queries';
-import AchievementsCard from '../Cards/AchievementsCard';
+import AchievementsCard from "../Cards/AchievementsCard";
 
-const OurVision = () => {
-  const { data: achievementsData } = useAchievements();
+const OurVision = ({ data }) => {
   return (
     <div id="OurVision">
       <div className="container grid grid-cols-1 xl:grid-cols-12 py-14 sm:py-20 gap-10 xl:py-32">
@@ -31,7 +29,7 @@ const OurVision = () => {
         <div className="hidden xl:block col-span-2"></div>
         {/* curd item */}
         <div className="xl:col-span-5 grid md:grid-cols-2 gap-3 sm:gap-5 w-full">
-          {achievementsData?.map((item) => (
+          {data?.map(item => (
             <AchievementsCard key={item?.id} data={item} />
           ))}
         </div>

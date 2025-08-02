@@ -1,8 +1,6 @@
-import { useTestimonialData } from '@/hooks/cms.queries';
-import Review from './Review';
+import Review from "./Review";
 
-const Testimonial = () => {
-  const { data: testimonialData } = useTestimonialData();
+const Testimonial = ({ data }) => {
   return (
     <section id="testimonial" className="pb-20">
       <div className="container">
@@ -15,7 +13,7 @@ const Testimonial = () => {
           </p>
         </div>
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 items-center">
-          {testimonialData?.map((review) => (
+          {data?.map(review => (
             <Review key={review.id} review={review}></Review>
           ))}
         </div>

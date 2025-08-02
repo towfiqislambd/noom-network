@@ -3,11 +3,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
-import { useFaqInfo } from '@/hooks/cms.queries';
+} from "@/components/ui/accordion";
 
-const Frequently = () => {
-  const { data: faqData } = useFaqInfo();
+const Frequently = ({ data }) => {
   return (
     <div className="bg-gradient-to-r from-[#EFF6FD] to-[#EBF8F7] via-[#EFF6FD] pb-10">
       <div className="container ">
@@ -25,7 +23,7 @@ const Frequently = () => {
             collapsible
             className="w-full border-t border-[#34B4B3]"
           >
-            {faqData?.map((item) => (
+            {data?.map(item => (
               <AccordionItem key={item?.id} value={`item-${item?.id}`}>
                 <AccordionTrigger className="text-lg sm:text-xl">
                   {item?.question}

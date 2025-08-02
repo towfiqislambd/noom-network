@@ -1,10 +1,7 @@
-import SectionTitle from '../common/SectionTitle';
-import { useSubscription } from '@/hooks/cms.queries';
-import SubscriptionCard from '../Cards/SubscriptionCard';
+import SectionTitle from "../common/SectionTitle";
+import SubscriptionCard from "../Cards/SubscriptionCard";
 
-const Pricing = () => {
-  const { data: subscriptionData } = useSubscription();
-
+const Pricing = ({ data }) => {
   return (
     <section className="bg-[#F5FBFF] py-14 sm:py-20">
       <div className="container">
@@ -14,7 +11,7 @@ const Pricing = () => {
           sectionDesc="Easily manage properties, track appreciation, and grow your portfolio with our smart tools"
         ></SectionTitle>
         <div className="flex flex-col lg:flex-row gap-6 items-center justify-center">
-          {subscriptionData?.map((item, index) => (
+          {data?.map((item, index) => (
             <SubscriptionCard light={index == 1} key={item?.id} data={item} />
           ))}
         </div>
