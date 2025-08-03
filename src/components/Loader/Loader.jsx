@@ -4,7 +4,7 @@ const Loader = () => {
   return (
     <div className="min-h-screen max-h-screen flex items-center justify-center">
       <Lottie
-        className="size-20 md:size-24 lg:size-32"
+        className="size-20 md:size-24 lg:size-28"
         animationData={loader}
       ></Lottie>
     </div>
